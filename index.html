@@ -147,7 +147,11 @@
     .nav-module-hd {
       display: flex; align-items: center;
       gap: 8px; padding: 7px 18px 5px;
+      cursor: pointer; border-radius: var(--radius-sm);
+      transition: background 0.18s;
     }
+    .nav-module-hd:hover { background: rgba(255,255,255,0.04); }
+    .nav-prog-pill, .nav-prog-track { display: none; }
 
     .nav-mod-emoji { font-size: 0.9rem; width: 20px; text-align: center; }
 
@@ -2390,19 +2394,13 @@ barrier.<span class="fn">await</span>(); <span class="cm">// blocks until all N 
 </div><!-- .app-layout -->
 
 <script>
-// ── State ──────────────────────────────────────────────
-const visited = new Set();
+// ── Colors (for active nav highlight) ──────────────────
 const modColors = {
   intro:    '#6c63ff', threads: '#00bcd4',
   hazards:  '#e05555', hardware: '#f5a623',
   perf:     '#2ecc71', divide:   '#a855f7',
   algo:     '#3b82f6', jmm:      '#ec4899',
   locks:    '#84cc16', sync:     '#f97316'
-};
-const modTotals = {
-  intro: 4, threads: 6, hazards: 5,
-  hardware: 6, perf: 6, divide: 7,
-  algo: 5, jmm: 5, locks: 5, sync: 5
 };
 
 // ── Collapsibles ───────────────────────────────────────
@@ -2419,42 +2417,17 @@ document.addEventListener('click', e => {
   if (chev) chev.style.transform = isOpen ? 'rotate(180deg)' : '';
 });
 
-// ── Progress ───────────────────────────────────────────
-function updateProgress(moduleId) {
-  const total   = modTotals[moduleId] || 0;
-  const visitedCount = [...document.querySelectorAll(`[data-module="${moduleId}"][data-concept]`)]
-    .filter(el => visited.has(el.dataset.concept)).length;
-  const pill = document.getElementById(`prog-${moduleId}`);
-  if (pill) {
-    pill.textContent = `${visitedCount}/${total}`;
-    if (visitedCount === total) {
-      pill.style.color = modColors[moduleId];
-      pill.style.borderColor = modColors[moduleId];
-    }
-  }
-  const fill = document.getElementById(`fill-${moduleId}`);
-  if (fill) {
-    fill.style.width = total ? `${(visitedCount / total) * 100}%` : '0%';
-    fill.style.background = modColors[moduleId] || '#6c63ff';
-  }
-}
-
-// ── Scroll Spy ─────────────────────────────────────────
+// ── Scroll Spy (active nav highlight only) ─────────────
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
     const conceptId = entry.target.dataset.concept;
     const moduleId  = entry.target.dataset.module;
     if (!conceptId) return;
-    // Mark visited
-    if (!visited.has(conceptId)) {
-      visited.add(conceptId);
-      updateProgress(moduleId);
-    }
-    // Update active nav
     document.querySelectorAll('.nav-item').forEach(item => {
       item.classList.remove('active');
       item.style.removeProperty('--nav-accent');
+      item.style.removeProperty('background');
     });
     const activeLink = document.querySelector(`.nav-item[href="#${conceptId}"]`);
     if (activeLink) {
@@ -2470,9 +2443,23 @@ const observer = new IntersectionObserver(entries => {
 
 document.querySelectorAll('[data-concept]').forEach(el => observer.observe(el));
 
+// ── Module header → scroll to section ──────────────────
+document.querySelectorAll('.nav-module').forEach(navMod => {
+  const hd        = navMod.querySelector('.nav-module-hd');
+  const firstLink = navMod.querySelector('.nav-item[data-concept]');
+  if (!hd || !firstLink) return;
+  hd.addEventListener('click', () => {
+    const card = document.getElementById(firstLink.dataset.concept);
+    if (!card) return;
+    const section = card.closest('.module-section');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (window.innerWidth <= 768) setSidebar(false);
+  });
+});
+
 // ── Mobile Sidebar ─────────────────────────────────────
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('sidebar-overlay');
+const sidebar   = document.getElementById('sidebar');
+const overlay   = document.getElementById('sidebar-overlay');
 const hamburger = document.getElementById('hamburger');
 
 function setSidebar(open) {
@@ -2484,26 +2471,22 @@ function setSidebar(open) {
 hamburger.addEventListener('click', () => setSidebar(!sidebar.classList.contains('open')));
 overlay.addEventListener('click',   () => setSidebar(false));
 
-// Close sidebar on nav link click (mobile)
+// Close sidebar on nav link click (mobile) + flash card
 document.querySelectorAll('.nav-item').forEach(item => {
   item.addEventListener('click', () => {
     if (window.innerWidth <= 768) setSidebar(false);
-    // Brief card highlight
     const conceptId = item.dataset.concept;
     if (conceptId) {
       const card = document.getElementById(conceptId);
       if (card) {
         card.classList.remove('flash');
-        void card.offsetWidth; // reflow to restart animation
+        void card.offsetWidth;
         card.classList.add('flash');
         card.addEventListener('animationend', () => card.classList.remove('flash'), { once: true });
       }
     }
   });
 });
-
-// Init progress display
-Object.keys(modTotals).forEach(updateProgress);
 </script>
 </body>
 </html>
