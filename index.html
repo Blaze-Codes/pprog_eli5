@@ -157,8 +157,8 @@
 
     .nav-mod-name {
       font-family: var(--font-display);
-      font-size: 0.76rem; font-weight: 600;
-      color: var(--text2); flex: 1;
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--text); flex: 1;
     }
 
     .nav-prog-pill {
@@ -185,7 +185,7 @@
 
     .nav-item {
       display: block; padding: 4px 18px 4px 28px;
-      font-size: 0.76rem; color: var(--muted);
+      font-size: 0.78rem; color: var(--muted);
       transition: all 0.18s;
       border-left: 2px solid transparent;
       cursor: pointer;
@@ -203,15 +203,15 @@
     .nav-divider { height: 1px; background: var(--border); margin: 6px 18px; }
 
     /* ─── Main Content ─────────────────────────── */
-    #main-content { padding: 44px 52px 100px; max-width: 920px; }
+    #main-content { padding: 44px 64px 100px; max-width: 960px; margin: 0 auto; }
 
     /* ─── Module Section ───────────────────────── */
     .module-section { margin-bottom: 80px; }
 
     .module-hd {
-      display: flex; align-items: flex-start;
-      gap: 18px; margin-bottom: 32px;
-      padding-bottom: 24px;
+      display: flex; align-items: center;
+      gap: 16px; margin-bottom: 32px;
+      padding-bottom: 20px;
       border-bottom: 1px solid var(--border);
       position: relative;
     }
@@ -219,36 +219,31 @@
     .module-hd::after {
       content: ''; position: absolute;
       bottom: -1px; left: 0;
-      width: 72px; height: 2px;
-      background: var(--mod-color, #6c63ff);
-      border-radius: 2px;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, var(--mod-color, #6c63ff), transparent);
     }
 
     .module-icon {
-      width: 50px; height: 50px;
-      border-radius: var(--radius);
-      background: var(--surface2); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.35rem; flex-shrink: 0;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.04) inset;
+      font-size: 1.75rem; flex-shrink: 0;
+      line-height: 1;
     }
 
-    .module-meta { flex: 1; padding-top: 2px; }
+    .module-meta { flex: 1; }
 
     .module-num {
-      font-size: 0.67rem; font-weight: 700;
+      font-size: 0.7rem; font-weight: 700;
       letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--mod-color, #6c63ff);
-      margin-bottom: 4px; font-family: var(--font-mono);
+      margin-bottom: 3px; font-family: var(--font-mono);
     }
 
     .module-title {
-      font-size: 1.45rem; font-weight: 800;
+      font-size: 1.5rem; font-weight: 800;
       letter-spacing: -0.025em; color: var(--text);
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
-    .module-desc { font-size: 0.84rem; color: var(--text2); }
+    .module-desc { font-size: 0.85rem; color: var(--text2); }
 
     /* ─── Concept Cards ────────────────────────── */
     @keyframes fadeUp {
@@ -261,7 +256,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       border-left: 3px solid var(--mod-color, #6c63ff);
-      padding: 24px; margin-bottom: 14px;
+      padding: 28px; margin-bottom: 14px;
       scroll-margin-top: calc(var(--header-h) + 20px);
       transition: box-shadow 0.25s;
       animation: fadeUp 0.4s ease both;
@@ -292,7 +287,7 @@
     }
 
     .card-title {
-      font-size: 1rem; font-weight: 700;
+      font-size: 1.08rem; font-weight: 700;
       color: var(--text); letter-spacing: -0.01em;
     }
 
@@ -302,7 +297,7 @@
       border: 1px solid var(--border);
       border-left: 3px solid var(--mod-color, #6c63ff);
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      padding: 13px 16px; margin-bottom: 16px;
+      padding: 15px 18px; margin-bottom: 16px;
     }
 
     .eli5-tag {
@@ -319,13 +314,13 @@
 
     .eli5 p {
       font-style: italic; color: var(--text2);
-      font-size: 0.88rem; line-height: 1.65;
+      font-size: 0.94rem; line-height: 1.65;
     }
 
     .eli5 p strong { font-style: normal; color: var(--text); }
 
     /* ─── Card Body ────────────────────────────── */
-    .card-body { font-size: 0.88rem; color: var(--text2); line-height: 1.72; }
+    .card-body { font-size: 0.94rem; color: var(--text2); line-height: 1.72; }
     .card-body p { margin-bottom: 10px; }
     .card-body p:last-child { margin-bottom: 0; }
     .card-body strong { color: var(--text); }
@@ -438,7 +433,7 @@
     .collapsible.open { max-height: 3000px; opacity: 1; }
 
     .ex-inner {
-      padding-top: 14px; font-size: 0.86rem;
+      padding-top: 14px; font-size: 0.92rem;
       color: var(--text2); line-height: 1.7;
     }
 
@@ -464,7 +459,7 @@
       gap: 10px; padding: 15px 20px;
       background: none; border: none;
       color: var(--text2); cursor: pointer;
-      font-family: var(--font-body); font-size: 0.83rem;
+      font-family: var(--font-body); font-size: 0.88rem;
       font-weight: 600; text-align: left;
       transition: all 0.2s;
     }
@@ -480,7 +475,7 @@
     .tips-inner ul { list-style: none; padding: 10px 0 0; }
     .tips-inner ul li {
       padding: 6px 0 6px 26px; position: relative;
-      font-size: 0.84rem; color: var(--text2); line-height: 1.6;
+      font-size: 0.9rem; color: var(--text2); line-height: 1.6;
       border-bottom: 1px solid rgba(255,255,255,0.04);
     }
     .tips-inner ul li:last-child { border-bottom: none; }
@@ -505,11 +500,11 @@
       }
       #sidebar.open { transform: translateX(0); }
 
-      #main-content { padding: 28px 22px 60px; }
+      #main-content { padding: 28px 24px 60px; }
     }
 
     @media (max-width: 480px) {
-      #main-content { padding: 20px 16px 60px; }
+      #main-content { padding: 20px 18px 60px; }
       .concept-card { padding: 18px 16px; }
       .module-title { font-size: 1.25rem; }
     }
