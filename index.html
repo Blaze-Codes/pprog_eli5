@@ -30,6 +30,10 @@
       --mod-hardware: #f5a623;
       --mod-perf:     #2ecc71;
       --mod-divide:   #a855f7;
+      --mod-algo:     #3b82f6;
+      --mod-jmm:      #ec4899;
+      --mod-locks:    #84cc16;
+      --mod-sync:     #f97316;
       --font-display: 'Syne', sans-serif;
       --font-body:    'Plus Jakarta Sans', sans-serif;
       --font-mono:    'JetBrains Mono', monospace;
@@ -641,6 +645,78 @@
       <li><a class="nav-item" href="#dc-dag"         data-concept="dc-dag">DAGs — Task Graphs</a></li>
       <li><a class="nav-item" href="#dc-workstealing" data-concept="dc-workstealing">Work-Stealing Scheduler</a></li>
       <li><a class="nav-item" href="#dc-recursive"   data-concept="dc-recursive">RecursiveTask Pattern</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 7 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🧩</span>
+      <span class="nav-mod-name">Parallel Algorithms</span>
+      <span class="nav-prog-pill" id="prog-algo">0/5</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-algo"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#algo-maps"       data-concept="algo-maps">Maps</a></li>
+      <li><a class="nav-item" href="#algo-reductions" data-concept="algo-reductions">Reductions</a></li>
+      <li><a class="nav-item" href="#algo-prefixsum"  data-concept="algo-prefixsum">Prefix Sum (Scan)</a></li>
+      <li><a class="nav-item" href="#algo-pack"       data-concept="algo-pack">Pack / Filter</a></li>
+      <li><a class="nav-item" href="#algo-quicksort"  data-concept="algo-quicksort">Parallel Quicksort</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 8 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🧠</span>
+      <span class="nav-mod-name">Java Memory Model</span>
+      <span class="nav-prog-pill" id="prog-jmm">0/5</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-jmm"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#jmm-reordering"    data-concept="jmm-reordering">Memory Reordering</a></li>
+      <li><a class="nav-item" href="#jmm-model"         data-concept="jmm-model">Java Memory Model</a></li>
+      <li><a class="nav-item" href="#jmm-happensbefore" data-concept="jmm-happensbefore">Happens-Before</a></li>
+      <li><a class="nav-item" href="#jmm-volatile"      data-concept="jmm-volatile">volatile</a></li>
+      <li><a class="nav-item" href="#jmm-dataraces"     data-concept="jmm-dataraces">Data Races vs Bad Interleavings</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 9 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🔐</span>
+      <span class="nav-mod-name">Lock Implementations</span>
+      <span class="nav-prog-pill" id="prog-locks">0/5</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-locks"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#lock-peterson" data-concept="lock-peterson">Peterson's Lock</a></li>
+      <li><a class="nav-item" href="#lock-filter"   data-concept="lock-filter">Filter Lock</a></li>
+      <li><a class="nav-item" href="#lock-bakery"   data-concept="lock-bakery">Lamport's Bakery</a></li>
+      <li><a class="nav-item" href="#lock-tas"      data-concept="lock-tas">TAS &amp; TATAS Spinlocks</a></li>
+      <li><a class="nav-item" href="#lock-cas"      data-concept="lock-cas">Compare-And-Swap (CAS)</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 10 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🚦</span>
+      <span class="nav-mod-name">Semaphores &amp; Beyond</span>
+      <span class="nav-prog-pill" id="prog-sync">0/5</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-sync"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#sync-semaphore"  data-concept="sync-semaphore">Semaphores</a></li>
+      <li><a class="nav-item" href="#sync-rendezvous" data-concept="sync-rendezvous">Rendezvous Pattern</a></li>
+      <li><a class="nav-item" href="#sync-barrier"    data-concept="sync-barrier">Barriers</a></li>
+      <li><a class="nav-item" href="#sync-deadlock"   data-concept="sync-deadlock">Deadlock Handling</a></li>
+      <li><a class="nav-item" href="#sync-vthreads"   data-concept="sync-vthreads">Virtual Threads</a></li>
     </ul>
   </div>
 </nav>
@@ -1671,6 +1747,645 @@ pool.<span class="fn">shutdown</span>();</pre></div>
   </div>
 </section>
 
+<!-- ╔══════════════════════════════════════════
+     MODULE 7 — PARALLEL ALGORITHMS
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="algo"
+  style="--mod-color:#3b82f6; --mod-color-bg:rgba(59,130,246,0.1); --mod-color-bd:rgba(59,130,246,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🧩</div>
+    <div class="module-meta">
+      <div class="module-num">Module 07</div>
+      <h2 class="module-title">Parallel Algorithms</h2>
+      <p class="module-desc">Classic patterns for parallel computation</p>
+    </div>
+  </div>
+
+  <!-- Card 1 -->
+  <article class="concept-card" id="algo-maps" data-concept="algo-maps" data-module="algo">
+    <div class="card-hd">
+      <div class="card-emoji">🗺️</div>
+      <h3 class="card-title">Maps — Embarrassingly Parallel</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>You have 1000 photos to resize. Give 250 to each of 4 friends. There's <strong>no dependency</strong> between photos — each one can be processed completely independently. This is a <em>map</em>: apply the same operation to each element, no coordination needed.</p>
+    </div>
+    <div class="card-body">
+      <p>A <strong>map</strong> applies a function independently to each element of a collection, producing a same-sized output. Since elements are independent, this is the easiest class of problem to parallelize — often called "embarrassingly parallel".</p>
+      <ul>
+        <li><strong>Work T₁ = O(n)</strong> — must process every element</li>
+        <li><strong>Span T∞ = O(1)</strong> — with infinite processors, all elements process simultaneously</li>
+        <li><strong>Parallelism = n</strong> — perfect scaling up to n processors</li>
+      </ul>
+      <p>Examples: vector addition, image processing (blur, edge detection), encryption of independent records.</p>
+    </div>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="concept-card" id="algo-reductions" data-concept="algo-reductions" data-module="algo">
+    <div class="card-hd">
+      <div class="card-emoji">🧮</div>
+      <h3 class="card-title">Reductions</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>You want the total price of 1000 items. Split the list in half, give each half to someone, they sum their half, then you add the two partial sums. Keep splitting recursively — you get the answer in O(log n) time instead of O(n).</p>
+    </div>
+    <div class="card-body">
+      <p>A <strong>reduction</strong> combines a collection into a single answer via an operator. The key requirement: the operator must be <strong>associative</strong> — the grouping of operations must not matter.</p>
+      <ul>
+        <li><strong>Work ✓:</strong> sum, max, min, product, AND, OR, XOR, count</li>
+        <li><strong>Work ✗:</strong> subtraction (not associative), median (not combinable)</li>
+      </ul>
+      <p>With divide-and-conquer: Work = O(n), Span = O(log n) — same total work, but the depth is now logarithmic.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-algo-reductions" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-algo-reductions">
+      <div class="ex-inner">
+        <div class="code-block"><pre>
+<span class="cm">// Parallel sum via divide-and-conquer</span>
+<span class="kw">if</span> (hi - lo &lt;= CUTOFF) <span class="kw">return</span> <span class="fn">sequentialSum</span>(lo, hi);
+<span class="ty">SumTask</span> left = <span class="kw">new</span> <span class="ty">SumTask</span>(lo, mid);
+left.<span class="fn">fork</span>();
+<span class="ty">long</span> right = <span class="kw">new</span> <span class="ty">SumTask</span>(mid, hi).<span class="fn">compute</span>();
+<span class="kw">return</span> left.<span class="fn">join</span>() + right;  <span class="cm">// associative combine</span></pre></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="concept-card" id="algo-prefixsum" data-concept="algo-prefixsum" data-module="algo">
+    <div class="card-hd">
+      <div class="card-emoji">➕</div>
+      <h3 class="card-title">Prefix Sum (Parallel Scan)</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>You have scores [3, 1, 4, 1, 5]. You want the running totals: [3, 4, 8, 9, 14]. Seems sequential — each answer depends on the previous one. But with a clever <strong>two-pass tree trick</strong>, you can compute all running totals in O(log n) time.</p>
+    </div>
+    <div class="card-body">
+      <p>Prefix sum (also called scan) computes <code>output[i] = sum(input[0..i])</code>. The parallel approach uses a binary tree in two passes:</p>
+      <ol>
+        <li><strong>Up pass (reduce):</strong> Build the tree bottom-up, computing range sums at each node</li>
+        <li><strong>Down pass (distribute):</strong> Traverse top-down, propagating a "fromLeft" prefix value to each leaf</li>
+      </ol>
+      <p>Result: <strong>Work = O(n)</strong>, <strong>Span = O(log n)</strong> — transforms an apparently sequential algorithm into a parallel one. Prefix sum is a building block for many other parallel algorithms (sorting, filtering, histograms).</p>
+    </div>
+  </article>
+
+  <!-- Card 4 -->
+  <article class="concept-card" id="algo-pack" data-concept="algo-pack" data-module="algo">
+    <div class="card-hd">
+      <div class="card-emoji">📦</div>
+      <h3 class="card-title">Pack / Filter</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>You have 1000 numbers and want only the even ones, <strong>in order</strong>. You can't just grab them independently — you need to know where each one goes in the output. Prefix sum tells you exactly that index, in parallel.</p>
+    </div>
+    <div class="card-body">
+      <p>Filter/Pack keeps only elements satisfying a predicate, preserving order. It uses prefix sum as a sub-routine in 3 steps:</p>
+      <ol>
+        <li><strong>Map:</strong> Create a bit-vector — <code>1</code> if the predicate holds, <code>0</code> otherwise</li>
+        <li><strong>Prefix sum:</strong> Compute running totals on the bit-vector → each 1's prefix sum value is its index in the output</li>
+        <li><strong>Map:</strong> Scatter elements to their computed output positions</li>
+      </ol>
+      <p><strong>Work = O(n)</strong>, <strong>Span = O(log n)</strong> — a seemingly sequential operation made parallel by reducing it to prefix sum.</p>
+    </div>
+  </article>
+
+  <!-- Card 5 -->
+  <article class="concept-card" id="algo-quicksort" data-concept="algo-quicksort" data-module="algo">
+    <div class="card-hd">
+      <div class="card-emoji">⚡</div>
+      <h3 class="card-title">Parallel Quicksort</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Regular quicksort picks a pivot and partitions the array — that partition scan is sequential. To parallelize it, replace the sequential scan with <strong>two parallel pack operations</strong>: one gathers elements smaller than the pivot, one gathers larger. Then recurse on both halves in parallel.</p>
+    </div>
+    <div class="card-body">
+      <p>Standard parallelization: fork both recursive calls. But the partition step itself (scanning the array to divide it) is still O(n) span — a bottleneck.</p>
+      <p><strong>Optimized:</strong> replace the sequential partition with two parallel pack operations:</p>
+      <ul>
+        <li>Pack elements <code>&lt; pivot</code> into the left side</li>
+        <li>Pack elements <code>&gt; pivot</code> into the right side</li>
+        <li>Place pivot; recurse both halves in parallel</li>
+      </ul>
+      <p>Result: <strong>Span improves from O(n) to O(log²n)</strong> — the partition is no longer the bottleneck.</p>
+    </div>
+  </article>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-algo" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-algo">
+      <div class="tips-inner">
+        <ul>
+          <li>If an algorithm requires an <strong>associative</strong> operator, it can almost always be parallelized as a reduction. Check associativity first.</li>
+          <li>Prefix sum is a surprisingly powerful primitive — it's the backbone of filter, pack, histogram, stream compaction, and more.</li>
+          <li>Linked lists don't support efficient divide-and-conquer (O(n) to find the middle). Use arrays or balanced trees for parallel algorithms.</li>
+          <li>MapReduce (Hadoop, Spark) is the distributed extension of the map + reduction pattern — same ideas, different scale.</li>
+          <li>JVM warm-up affects benchmarks — always measure in a steady-state loop, not on the first invocation.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 8 — JAVA MEMORY MODEL
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="jmm"
+  style="--mod-color:#ec4899; --mod-color-bg:rgba(236,72,153,0.1); --mod-color-bd:rgba(236,72,153,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🧠</div>
+    <div class="module-meta">
+      <div class="module-num">Module 08</div>
+      <h2 class="module-title">Java Memory Model</h2>
+      <p class="module-desc">Why "obvious" code can silently break in parallel</p>
+    </div>
+  </div>
+
+  <!-- Card 1 -->
+  <article class="concept-card" id="jmm-reordering" data-concept="jmm-reordering" data-module="jmm">
+    <div class="card-hd">
+      <div class="card-emoji">🔀</div>
+      <h3 class="card-title">Memory Reordering</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>You write a note, leave it on the desk, and tell your colleague "check the desk." But your colleague looks <strong>before</strong> the note actually gets there — their local cache still shows the old version. Or your CPU decided to write the note <strong>later</strong> than you expected, as an optimization.</p>
+    </div>
+    <div class="card-body">
+      <p>Modern systems reorder memory operations for performance, breaking the assumption that operations execute in the order you wrote them:</p>
+      <ul>
+        <li><strong>Compiler reordering:</strong> Optimizations preserve single-thread semantics but can break multi-thread assumptions (register hoisting, dead code elimination, instruction reordering)</li>
+        <li><strong>Hardware reordering:</strong> Out-of-order execution, write buffers (writes are queued before reaching main memory), per-core cache hierarchies with delayed propagation</li>
+      </ul>
+      <p>Different CPU architectures (x86, ARM, POWER) provide different reordering guarantees. x86 is relatively strong; ARM allows more reorderings. Language memory models must assume the weakest guarantees for portability.</p>
+    </div>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="concept-card" id="jmm-model" data-concept="jmm-model" data-module="jmm">
+    <div class="card-hd">
+      <div class="card-emoji">📜</div>
+      <h3 class="card-title">Java Memory Model (JMM)</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>The JMM is the <strong>contract</strong> between you and the Java runtime. It says: "Follow these rules, and we guarantee these visibility properties." Without the contract, the runtime is free to do anything for performance — and your code breaks.</p>
+    </div>
+    <div class="card-body">
+      <p>The JMM specifies exactly which memory writes by one thread are guaranteed to be visible to reads by another. It defines three key orderings:</p>
+      <ul>
+        <li><strong>Program Order (PO):</strong> Within a single thread, instructions appear to execute in written order</li>
+        <li><strong>Synchronizes-With (SW):</strong> Pairing between sync actions — e.g., a lock release pairs with the next acquisition of the same lock</li>
+        <li><strong>Happens-Before (HB):</strong> Transitive closure of PO + SW — the key guarantee for visibility</li>
+      </ul>
+      <p>The JMM was initially weak (Java 1995) and was substantially clarified in <strong>Java 5 (2004)</strong>.</p>
+    </div>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="concept-card" id="jmm-happensbefore" data-concept="jmm-happensbefore" data-module="jmm">
+    <div class="card-hd">
+      <div class="card-emoji">⏱️</div>
+      <h3 class="card-title">Happens-Before</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>If event A <strong>happens-before</strong> event B, then everything A did is <em>guaranteed visible</em> to B — no stale caches, no reordering surprises. Without a happens-before relationship, there are no visibility guarantees at all.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>Happens-Before (HB)</strong> is the JMM's central guarantee: if A →HB B, then the effects of A are guaranteed visible to B.</p>
+      <p>What establishes happens-before?</p>
+      <ul>
+        <li><strong>Program order:</strong> Earlier statements in the same thread HB later ones</li>
+        <li><strong>Monitor unlock → next lock:</strong> Releasing <code>synchronized</code> HB the subsequent acquisition on the same object</li>
+        <li><strong>volatile write → next read:</strong> Writing a <code>volatile</code> variable HB any subsequent read of it</li>
+        <li><strong>Thread start/join:</strong> <code>t.start()</code> HB any action in thread t; any action in t HB <code>t.join()</code> returning</li>
+        <li><strong>Transitivity:</strong> If A →HB B and B →HB C, then A →HB C</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- Card 4 -->
+  <article class="concept-card" id="jmm-volatile" data-concept="jmm-volatile" data-module="jmm">
+    <div class="card-hd">
+      <div class="card-emoji">📡</div>
+      <h3 class="card-title"><code>volatile</code></h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p><code>volatile</code> is a megaphone: every write is <strong>immediately broadcast</strong> to all threads, and every read fetches the <em>latest</em> value from memory. But it's not a lock — it doesn't make compound operations atomic.</p>
+    </div>
+    <div class="card-body">
+      <p><code>volatile</code> provides <strong>visibility</strong> without <strong>mutual exclusion</strong>:</p>
+      <ul>
+        <li>Writes are immediately visible to all threads (bypasses caches)</li>
+        <li>Reads always fetch from main memory, not a stale cache</li>
+        <li>Establishes happens-before: <code>volatile</code> write →HB subsequent <code>volatile</code> read of the same variable</li>
+        <li>Prevents compiler/hardware reordering around the access</li>
+      </ul>
+      <p><strong>What volatile does NOT do:</strong> it doesn't make compound operations atomic. <code>count++</code> is still a race condition even on a <code>volatile</code> field — use <code>AtomicInteger</code> instead.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-jmm-volatile" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-jmm-volatile">
+      <div class="ex-inner">
+        <div class="code-block"><pre>
+<span class="cm">// Classic use: stop flag (volatile = safe, boolean = not safe)</span>
+<span class="kw">volatile boolean</span> stop = <span class="kw">false</span>;
+<span class="cm">// Thread 1:</span>
+<span class="kw">while</span> (!stop) { <span class="cm">/* work */</span> }   <span class="cm">// always reads fresh value</span>
+<span class="cm">// Thread 2:</span>
+stop = <span class="kw">true</span>;                   <span class="cm">// immediately visible to Thread 1</span>
+
+<span class="cm">// Still a race condition even with volatile:</span>
+<span class="kw">volatile int</span> count = <span class="nu">0</span>;
+count++;  <span class="cm">// NOT atomic — use AtomicInteger.incrementAndGet()</span></pre></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 5 -->
+  <article class="concept-card" id="jmm-dataraces" data-concept="jmm-dataraces" data-module="jmm">
+    <div class="card-hd">
+      <div class="card-emoji">💥</div>
+      <h3 class="card-title">Data Races vs Bad Interleavings</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>A <strong>data race</strong> is a low-level hardware crime — two threads touching the same memory without synchronization. A <strong>bad interleaving</strong> is a logic crime — the right operations in the wrong order. Data races can cause <em>completely nonsensical</em> results; bad interleavings produce wrong but at least "real" values.</p>
+    </div>
+    <div class="card-body">
+      <p>These are distinct problems:</p>
+      <ul>
+        <li><strong>Data Race (low-level):</strong> Concurrent read/write or write/write on the same memory location without synchronization. The JMM says reads can see <em>completely unexpected values</em> — including values from the future, or values that never existed. Compilers and hardware can optimize in ways that make no sense for a race-condition program.</li>
+        <li><strong>Bad Interleaving (high-level):</strong> All accesses are synchronized, but the order of high-level operations is wrong. Individual reads and writes are consistent, but the program logic is violated (e.g., TOCTOU: check-then-act with a window in between).</li>
+      </ul>
+      <p>The fix for data races: always use <code>synchronized</code>, <code>volatile</code>, or atomics on shared mutable data. The fix for bad interleavings: expand the critical section to cover the whole logical operation.</p>
+    </div>
+  </article>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-jmm" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-jmm">
+      <div class="tips-inner">
+        <ul>
+          <li>A data race is undefined behavior in the JMM — the compiler and CPU are free to optimize assuming it doesn't happen. The results can be completely nonsensical, not just "a bit wrong".</li>
+          <li><code>volatile</code> is for <em>single-variable visibility</em>. For compound invariants (e.g., balance + transaction log must stay consistent), use <code>synchronized</code>.</li>
+          <li>Even reading a <code>long</code> or <code>double</code> is not guaranteed atomic on 32-bit JVMs — declare them <code>volatile</code> or use <code>synchronized</code>.</li>
+          <li>The classic broken pattern: <code>while (!stop) {}</code> where <code>stop</code> is not <code>volatile</code>. The compiler may hoist the read into a register and loop forever.</li>
+          <li>Happens-before is transitive — you can chain guarantees. <code>synchronized</code> gives you both happens-before <em>and</em> mutual exclusion.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 9 — LOCK IMPLEMENTATIONS
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="locks"
+  style="--mod-color:#84cc16; --mod-color-bg:rgba(132,204,22,0.1); --mod-color-bd:rgba(132,204,22,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🔐</div>
+    <div class="module-meta">
+      <div class="module-num">Module 09</div>
+      <h2 class="module-title">Lock Implementations</h2>
+      <p class="module-desc">How mutual exclusion is actually built</p>
+    </div>
+  </div>
+
+  <!-- Card 1 -->
+  <article class="concept-card" id="lock-peterson" data-concept="lock-peterson" data-module="locks">
+    <div class="card-hd">
+      <div class="card-emoji">🤝</div>
+      <h3 class="card-title">Peterson's Lock</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Two people want to enter a room. Each raises their hand to signal interest. But each also says <strong>"no, you go first"</strong> — writing themselves as the "victim." If you raised your hand AND you're the victim, you wait. If the other person raised their hand but they're the victim, you go in. Elegant: only one can be the victim at a time.</p>
+    </div>
+    <div class="card-body">
+      <p>Peterson's Lock (1981) is the classic 2-thread software mutex, using only shared registers:</p>
+      <ul>
+        <li><code>flag[me] = true</code> — "I want to enter"</li>
+        <li><code>victim = me</code> — "I yield priority to the other"</li>
+        <li>Wait while: <code>flag[other] &amp;&amp; victim == me</code></li>
+      </ul>
+      <p>It proves 3 properties: <strong>mutual exclusion</strong> (at most one in CS), <strong>deadlock-freedom</strong> (at least one always progresses), and <strong>starvation-freedom</strong> (every waiting thread eventually enters).</p>
+      <p>Important: requires <code>volatile</code> (or equivalent) on the flag array in Java for correct memory visibility.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-lock-peterson" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-lock-peterson">
+      <div class="ex-inner">
+        <div class="code-block"><pre>
+<span class="kw">void</span> <span class="fn">lock</span>(<span class="kw">int</span> me) {
+    <span class="kw">int</span> other = <span class="nu">1</span> - me;
+    flag[me] = <span class="kw">true</span>;             <span class="cm">// I want in</span>
+    victim = me;                   <span class="cm">// I yield</span>
+    <span class="kw">while</span> (flag[other] &amp;&amp; victim == me) {} <span class="cm">// spin</span>
+}
+<span class="kw">void</span> <span class="fn">unlock</span>(<span class="kw">int</span> me) {
+    flag[me] = <span class="kw">false</span>;            <span class="cm">// I'm done</span>
+}</pre></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="concept-card" id="lock-filter" data-concept="lock-filter" data-module="locks">
+    <div class="card-hd">
+      <div class="card-emoji">🔽</div>
+      <h3 class="card-title">Filter Lock</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Peterson's Lock works for 2 threads. For N threads, imagine a <strong>queue of waiting rooms</strong> — levels 1 through N-1. To enter the critical section, a thread must progress through all levels. At each level, at most one thread gets "stuck" as the victim. Everyone else passes through. Eventually only one thread reaches the end.</p>
+    </div>
+    <div class="card-body">
+      <p>Filter Lock generalizes Peterson's Lock to N threads. It has N-1 "levels":</p>
+      <ul>
+        <li>Each level has a <code>victim[level]</code> variable</li>
+        <li>To pass level L, write yourself as victim, then wait until either no other thread is at level ≥ L, or you're no longer the victim</li>
+        <li>At each level, at most one thread is "held back" — the victim</li>
+        <li>A thread passes a level only if it's not the last to arrive</li>
+      </ul>
+      <p>Guarantees mutual exclusion and starvation-freedom. Space cost: O(N) — one victim variable per level.</p>
+    </div>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="concept-card" id="lock-bakery" data-concept="lock-bakery" data-module="locks">
+    <div class="card-hd">
+      <div class="card-emoji">🥐</div>
+      <h3 class="card-title">Lamport's Bakery Algorithm</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Walk into a bakery and <strong>take a number ticket</strong>. Everyone waits until their number is called — lowest number first. If two people grab the same number (a tie), the one with the lower customer ID goes first. Simple, fair, and provably correct.</p>
+    </div>
+    <div class="card-body">
+      <p>Lamport's Bakery (1974) is elegant and provably correct even with <strong>regular registers</strong> (weaker than atomic):</p>
+      <ol>
+        <li>Set <code>choosing[me] = true</code> (entering the "bakery")</li>
+        <li>Take a ticket number: <code>number[me] = 1 + max(all numbers)</code></li>
+        <li>Set <code>choosing[me] = false</code></li>
+        <li>For each other thread j: wait if j is choosing; then wait if j's ticket is lower (or equal ticket and lower ID)</li>
+      </ol>
+      <p>Ties broken by thread ID using lexicographic ordering: <code>(ticket_j, j) &lt; (ticket_me, me)</code>. Starvation-free by FIFO ordering of ticket numbers.</p>
+    </div>
+  </article>
+
+  <!-- Card 4 -->
+  <article class="concept-card" id="lock-tas" data-concept="lock-tas" data-module="locks">
+    <div class="card-hd">
+      <div class="card-emoji">🔑</div>
+      <h3 class="card-title">TAS &amp; TATAS Spinlocks</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p><strong>TAS</strong> (Test-And-Set): repeatedly hammer the door with expensive atomic ops. <strong>TATAS</strong>: first peek through the window (cheap local read). Only when you see the door is free, try the expensive atomic knock. Dramatically less noise for everyone else.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>Test-And-Set (TAS):</strong> A hardware instruction that atomically writes 1 to a memory location and returns the old value. A TAS spinlock spins calling TAS until it gets 0 back (was unlocked). Problem: every spin attempt is an expensive bus-locking atomic op, generating huge cache coherence traffic — performance collapses with many threads.</p>
+      <p><strong>Test-and-Test-and-Set (TATAS):</strong> First spin reading the lock state locally (cache hit, cheap). Only attempt the atomic TAS when the local read shows the lock is free. Much less bus traffic.</p>
+      <p><strong>TATAS + Exponential Backoff:</strong> After each failed acquisition, wait a random exponentially-growing duration before retrying. Prevents the "thundering herd" — all threads detecting a free lock and colliding simultaneously.</p>
+    </div>
+  </article>
+
+  <!-- Card 5 -->
+  <article class="concept-card" id="lock-cas" data-concept="lock-cas" data-module="locks">
+    <div class="card-hd">
+      <div class="card-emoji">🔄</div>
+      <h3 class="card-title">Compare-And-Swap (CAS)</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>CAS says: <strong>"Only update this value if it still equals what I expected."</strong> If the value changed since I last read it, the operation fails and I retry. It's the hardware primitive behind most lock-free and atomic data structures.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>CAS</strong> atomically: reads the current value, compares it to an expected value, and only writes the new value if they match. Returns whether the swap succeeded.</p>
+      <div class="code-block"><pre>
+<span class="cm">// Pseudocode — executed atomically by hardware</span>
+<span class="kw">bool</span> <span class="fn">CAS</span>(<span class="va">addr</span>, <span class="va">expected</span>, <span class="va">newVal</span>) {
+    <span class="kw">if</span> (*addr == expected) { *addr = newVal; <span class="kw">return true</span>; }
+    <span class="kw">return false</span>;
+}</pre></div>
+      <ul>
+        <li>Foundation of <code>AtomicInteger</code>, <code>AtomicReference</code>, <code>ConcurrentHashMap</code></li>
+        <li>Used in lock-free algorithms — threads retry on failure instead of blocking</li>
+        <li>On x86: <code>CMPXCHG</code> instruction. On ARM: <code>LL/SC</code> (load-linked/store-conditional) pair</li>
+        <li><strong>ABA problem:</strong> CAS can't detect if a value changed from A→B→A. Use stamped references when this matters.</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-locks" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-locks">
+      <div class="tips-inner">
+        <ul>
+          <li>Peterson's and Bakery algorithms require <code>volatile</code> (or <code>AtomicIntegerArray</code>) in Java — plain arrays won't provide the visibility guarantees the algorithms require.</li>
+          <li>Software locks (Peterson, Filter, Bakery) are O(N) space. Hardware CAS/TAS locks are O(1). In practice, always use hardware-backed locks.</li>
+          <li>Spinlocks are only efficient when the critical section is very short and contention is low. For long waits, blocking locks (OS-mediated) are better — the CPU can do useful work.</li>
+          <li>Backoff is crucial for TATAS under high contention. Without it, all threads detect a free lock simultaneously and collide — the "thundering herd".</li>
+          <li>CAS-based lock-free algorithms avoid deadlock by design — a thread that fails CAS simply retries. But they can still livelock or starve under extreme contention.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 10 — SEMAPHORES, BARRIERS & VIRTUAL THREADS
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="sync"
+  style="--mod-color:#f97316; --mod-color-bg:rgba(249,115,22,0.1); --mod-color-bd:rgba(249,115,22,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🚦</div>
+    <div class="module-meta">
+      <div class="module-num">Module 10</div>
+      <h2 class="module-title">Semaphores, Barriers &amp; Virtual Threads</h2>
+      <p class="module-desc">Higher-level coordination primitives</p>
+    </div>
+  </div>
+
+  <!-- Card 1 -->
+  <article class="concept-card" id="sync-semaphore" data-concept="sync-semaphore" data-module="sync">
+    <div class="card-hd">
+      <div class="card-emoji">🔢</div>
+      <h3 class="card-title">Semaphores</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>A semaphore is a counter with two operations: <strong>acquire</strong> (take a ticket, wait if none are left) and <strong>release</strong> (add a ticket back). A semaphore initialized to 1 is a mutex — a semaphore initialized to N controls access to N identical resources.</p>
+    </div>
+    <div class="card-body">
+      <p>A <strong>semaphore</strong> is a non-negative integer counter with two atomic operations:</p>
+      <ul>
+        <li><strong>acquire(S):</strong> If S &gt; 0, decrement and proceed. If S = 0, block until it increases.</li>
+        <li><strong>release(S):</strong> Increment S, unblocking one waiting thread if any.</li>
+      </ul>
+      <p>Use cases:</p>
+      <ul>
+        <li><strong>Binary semaphore (S=1):</strong> Equivalent to a mutex lock</li>
+        <li><strong>Counting semaphore (S=N):</strong> Allows up to N threads to access a resource simultaneously (e.g., connection pool of size N)</li>
+        <li><strong>Signaling:</strong> One thread <em>releases</em> to signal an event; another <em>acquires</em> to wait for it</li>
+      </ul>
+      <p>Java: <code>java.util.concurrent.Semaphore</code></p>
+    </div>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="concept-card" id="sync-rendezvous" data-concept="sync-rendezvous" data-module="sync">
+    <div class="card-hd">
+      <div class="card-emoji">🤝</div>
+      <h3 class="card-title">Rendezvous Pattern</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Two friends agree to meet before going into the restaurant. Neither goes in until both have arrived. Each waits for the other's signal — but there's a subtle trap: if you <strong>wait before signaling</strong>, you both wait forever.</p>
+    </div>
+    <div class="card-body">
+      <p>Rendezvous ensures two threads reach a synchronization point before either continues. It needs two semaphores (one per thread), both initialized to 0:</p>
+      <ol>
+        <li>Thread A: <code>release(arrived_A)</code> then <code>acquire(arrived_B)</code></li>
+        <li>Thread B: <code>release(arrived_B)</code> then <code>acquire(arrived_A)</code></li>
+      </ol>
+      <p><strong>Classic mistake:</strong> if both threads <em>acquire first</em>, then try to release — they deadlock, each waiting for the other to signal first.</p>
+      <p><strong>Key rule:</strong> always signal (<code>release</code>) your own arrival <em>before</em> waiting (<code>acquire</code>) for the other's — this breaks the circular wait.</p>
+    </div>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="concept-card" id="sync-barrier" data-concept="sync-barrier" data-module="sync">
+    <div class="card-hd">
+      <div class="card-emoji">🛑</div>
+      <h3 class="card-title">Barriers</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>A barrier is a finish line for a team race: <strong>nobody crosses until everyone finishes their lap</strong>. The last runner to arrive "opens the gate" and all runners proceed together to the next lap.</p>
+    </div>
+    <div class="card-body">
+      <p>A <strong>barrier</strong> forces all N threads to wait at a checkpoint until every thread has arrived. The last to arrive releases all waiters.</p>
+      <p>Building a correct barrier is surprisingly tricky — there are several failure modes:</p>
+      <ul>
+        <li><strong>Race on counter:</strong> Incrementing a shared <code>count</code> with <code>count++</code> is not atomic → use a mutex</li>
+        <li><strong>Only one thread released:</strong> A single <code>release()</code> only frees one waiter → use <code>notifyAll()</code> or N-1 releases</li>
+        <li><strong>Non-reusability:</strong> Fast threads in the next iteration can race past a barrier before slow threads have finished resetting it → requires a two-phase design</li>
+      </ul>
+      <p><strong>Two-phase reusable barrier:</strong> Phase 1 (all arrive), Phase 2 (all reset state). Only when all threads have completed phase 2 can phase 1 restart. Java: <code>CyclicBarrier</code> implements this correctly.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-sync-barrier" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-sync-barrier">
+      <div class="ex-inner">
+        <div class="code-block"><pre>
+<span class="cm">// Java's built-in CyclicBarrier — reusable, correct</span>
+<span class="ty">CyclicBarrier</span> barrier = <span class="kw">new</span> <span class="ty">CyclicBarrier</span>(N);
+
+<span class="cm">// Each thread, at the synchronization point:</span>
+barrier.<span class="fn">await</span>(); <span class="cm">// blocks until all N threads call await()</span>
+                 <span class="cm">// then all N proceed simultaneously</span></pre></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 4 -->
+  <article class="concept-card" id="sync-deadlock" data-concept="sync-deadlock" data-module="sync">
+    <div class="card-hd">
+      <div class="card-emoji">🗺️</div>
+      <h3 class="card-title">Deadlock Handling Strategies</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Three ways to deal with deadlock: <strong>prevention</strong> (design the system so circular wait can never happen), <strong>detection + recovery</strong> (let it happen, then find and break cycles), or <strong>avoidance</strong> (dynamically check before each allocation if it's safe). Prevention is almost always the right choice.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>Resource Ordering (Prevention):</strong> Define a global total order on all locks. Every thread must acquire locks in ascending order. This structurally breaks the circular-wait Coffman condition.</p>
+      <div class="code-block"><pre>
+<span class="cm">// Always lock the lower-numbered account first</span>
+<span class="kw">if</span> (this.id &lt; other.id) {
+    <span class="kw">synchronized</span>(this) { <span class="kw">synchronized</span>(other) { <span class="fn">transfer</span>(); } }
+} <span class="kw">else</span> {
+    <span class="kw">synchronized</span>(other) { <span class="kw">synchronized</span>(this) { <span class="fn">transfer</span>(); } }
+}</pre></div>
+      <p><strong>Two-Phase Locking (Avoidance):</strong> Try to acquire all needed locks. If any fails, release all and retry. Works but can livelock under heavy contention.</p>
+      <p><strong>Detection + Recovery:</strong> Build a resource allocation graph; scan for cycles periodically. If found, abort a thread to break the cycle. Used in databases; impractical for general parallel code (aborting a thread leaves inconsistent state).</p>
+    </div>
+  </article>
+
+  <!-- Card 5 -->
+  <article class="concept-card" id="sync-vthreads" data-concept="sync-vthreads" data-module="sync">
+    <div class="card-hd">
+      <div class="card-emoji">🪄</div>
+      <h3 class="card-title">Virtual Threads (Project Loom)</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Normal threads are like <strong>renting entire hotel rooms</strong> — expensive, limited supply. Virtual threads are like <strong>hot-desking</strong>: millions of "workers" share a small pool of physical desks. When a virtual thread blocks (waiting for I/O), it vacates the desk so another can use it. No blocking a physical OS thread while waiting.</p>
+    </div>
+    <div class="card-body">
+      <p>Virtual threads (Java 21, Project Loom) decouple application concurrency from OS thread limits:</p>
+      <ul>
+        <li><strong>Platform threads:</strong> 1:1 with OS threads, ~1MB stack each, max thousands</li>
+        <li><strong>Virtual threads:</strong> JVM-managed, heap-allocated state, max millions</li>
+        <li><strong>Carrier threads:</strong> The real OS threads. Virtual threads mount/unmount onto carriers. On I/O block → unmount, carrier serves another virtual thread.</li>
+      </ul>
+      <p>Key rules:</p>
+      <ul>
+        <li><strong>Never pool virtual threads</strong> — they're cheap, create per task instead</li>
+        <li>Ideal for <strong>I/O-bound</strong> workloads (servers, DB queries, network calls)</li>
+        <li>Minimal benefit for <strong>CPU-bound</strong> work — they occupy a carrier regardless</li>
+        <li>Create with: <code>Thread.ofVirtual().start(task)</code> or <code>Executors.newVirtualThreadPerTaskExecutor()</code></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-sync" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-sync">
+      <div class="tips-inner">
+        <ul>
+          <li>In the rendezvous pattern, always <strong>release before acquire</strong> — signaling your arrival before waiting for the other's. The reverse deadlocks.</li>
+          <li>Prefer <code>CyclicBarrier</code> over rolling your own barrier — correctness requires a two-phase design that's easy to get wrong.</li>
+          <li>For lock ordering: if objects don't have a natural order, use <code>System.identityHashCode()</code> or an <code>AtomicLong</code> counter to assign unique IDs at construction time.</li>
+          <li>Virtual threads are not faster for CPU-bound work. Their benefit is <strong>scaling I/O-bound concurrency</strong> without wasting OS threads on blocking.</li>
+          <li>Virtual threads use <code>ForkJoinPool</code> internally as the carrier pool — don't block virtual threads with <code>synchronized</code> on long I/O (use <code>ReentrantLock</code> instead, which allows unmounting).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
 </div><!-- .app-layout -->
 
@@ -1680,11 +2395,14 @@ const visited = new Set();
 const modColors = {
   intro:    '#6c63ff', threads: '#00bcd4',
   hazards:  '#e05555', hardware: '#f5a623',
-  perf:     '#2ecc71', divide:   '#a855f7'
+  perf:     '#2ecc71', divide:   '#a855f7',
+  algo:     '#3b82f6', jmm:      '#ec4899',
+  locks:    '#84cc16', sync:     '#f97316'
 };
 const modTotals = {
   intro: 4, threads: 6, hazards: 5,
-  hardware: 6, perf: 6, divide: 7
+  hardware: 6, perf: 6, divide: 7,
+  algo: 5, jmm: 5, locks: 5, sync: 5
 };
 
 // ── Collapsibles ───────────────────────────────────────
