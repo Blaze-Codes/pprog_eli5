@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parallel Programming — ELI5 Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0f1117;
+      --surface:      #1a1d27;
+      --surface2:     #22263a;
+      --surface3:     #2a2f44;
+      --border:       #2e3250;
+      --border-light: #3a4060;
+      --text:         #e8eaf6;
+      --text2:        #9aa0c8;
+      --muted:        #4a5080;
+      --radius:       12px;
+      --radius-sm:    8px;
+      --sidebar-w:    272px;
+      --header-h:     58px;
+      --mod-intro:    #6c63ff;
+      --mod-threads:  #00bcd4;
+      --mod-hazards:  #e05555;
+      --mod-hardware: #f5a623;
+      --mod-perf:     #2ecc71;
+      --mod-divide:   #a855f7;
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'Plus Jakarta Sans', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.65;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(circle, rgba(108,99,255,0.055) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; }
+    code, pre       { font-family: var(--font-mono); }
+    strong          { color: var(--text); font-weight: 600; }
+    em              { color: var(--text2); }
+    a               { color: inherit; text-decoration: none; }
+
+    ::-webkit-scrollbar       { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+    /* ─── Header ───────────────────────────────── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--header-h); z-index: 100;
+      background: rgba(15,17,23,0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 20px; gap: 14px;
+    }
+
+    .header-brand { display: flex; align-items: baseline; gap: 10px; flex: 1; }
+
+    .header-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem; font-weight: 700;
+      letter-spacing: -0.02em; color: var(--text);
+    }
+
+    .header-title span {
+      background: linear-gradient(120deg, #6c63ff 0%, #a855f7 60%, #00bcd4 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-sub {
+      font-size: 0.7rem; color: var(--muted);
+      font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 9px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    #hamburger {
+      display: none; background: none;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      color: var(--text2); cursor: pointer;
+      padding: 7px; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    #hamburger:hover { background: var(--surface); color: var(--text); }
+    #hamburger svg  { display: block; }
+
+    /* ─── Overlay ───────────────────────────────── */
+    #sidebar-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55); z-index: 90;
+      opacity: 0; transition: opacity 0.25s;
+    }
+    #sidebar-overlay.visible { opacity: 1; }
+
+    /* ─── App Layout ───────────────────────────── */
+    .app-layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      padding-top: var(--header-h);
+      min-height: 100vh;
+    }
+
+    /* ─── Sidebar ──────────────────────────────── */
+    #sidebar {
+      position: sticky; top: var(--header-h);
+      height: calc(100vh - var(--header-h));
+      overflow-y: auto; padding: 20px 0 60px;
+      background: rgba(15,17,23,0.65);
+      border-right: 1px solid var(--border);
+    }
+
+    .nav-top-label {
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); padding: 0 18px 14px;
+    }
+
+    .nav-module { margin-bottom: 2px; }
+
+    .nav-module-hd {
+      display: flex; align-items: center;
+      gap: 8px; padding: 7px 18px 5px;
+    }
+
+    .nav-mod-emoji { font-size: 0.9rem; width: 20px; text-align: center; }
+
+    .nav-mod-name {
+      font-family: var(--font-display);
+      font-size: 0.76rem; font-weight: 600;
+      color: var(--text2); flex: 1;
+    }
+
+    .nav-prog-pill {
+      font-size: 0.62rem; font-weight: 600;
+      color: var(--muted);
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 20px; padding: 1px 7px;
+      font-family: var(--font-mono);
+      min-width: 30px; text-align: center;
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .nav-prog-track {
+      height: 2px; background: var(--border);
+      margin: 0 18px 5px; border-radius: 2px; overflow: hidden;
+    }
+
+    .nav-prog-fill {
+      height: 100%; width: 0%;
+      border-radius: 2px; transition: width 0.5s ease;
+    }
+
+    .nav-items { list-style: none; padding: 0 0 8px; }
+
+    .nav-item {
+      display: block; padding: 4px 18px 4px 28px;
+      font-size: 0.76rem; color: var(--muted);
+      transition: all 0.18s;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .nav-item:hover { color: var(--text2); background: rgba(255,255,255,0.02); }
+
+    .nav-item.active {
+      color: var(--text);
+      border-left-color: var(--nav-accent, #6c63ff);
+      background: rgba(108,99,255,0.06);
+      font-weight: 500;
+    }
+
+    .nav-divider { height: 1px; background: var(--border); margin: 6px 18px; }
+
+    /* ─── Main Content ─────────────────────────── */
+    #main-content { padding: 44px 52px 100px; max-width: 920px; }
+
+    /* ─── Module Section ───────────────────────── */
+    .module-section { margin-bottom: 80px; }
+
+    .module-hd {
+      display: flex; align-items: flex-start;
+      gap: 18px; margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .module-hd::after {
+      content: ''; position: absolute;
+      bottom: -1px; left: 0;
+      width: 72px; height: 2px;
+      background: var(--mod-color, #6c63ff);
+      border-radius: 2px;
+    }
+
+    .module-icon {
+      width: 50px; height: 50px;
+      border-radius: var(--radius);
+      background: var(--surface2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; flex-shrink: 0;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.04) inset;
+    }
+
+    .module-meta { flex: 1; padding-top: 2px; }
+
+    .module-num {
+      font-size: 0.67rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--mod-color, #6c63ff);
+      margin-bottom: 4px; font-family: var(--font-mono);
+    }
+
+    .module-title {
+      font-size: 1.45rem; font-weight: 800;
+      letter-spacing: -0.025em; color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .module-desc { font-size: 0.84rem; color: var(--text2); }
+
+    /* ─── Concept Cards ────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .concept-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      border-left: 3px solid var(--mod-color, #6c63ff);
+      padding: 24px; margin-bottom: 14px;
+      scroll-margin-top: calc(var(--header-h) + 20px);
+      transition: box-shadow 0.25s;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .concept-card:hover {
+      box-shadow: 0 0 0 1px var(--border-light), 0 6px 24px rgba(0,0,0,0.3);
+    }
+
+    @keyframes cardFlash {
+      0%   { box-shadow: 0 0 0 2px var(--mod-color, #6c63ff); }
+      100% { box-shadow: none; }
+    }
+    .concept-card.flash { animation: cardFlash 0.9s ease-out; }
+
+    .card-hd {
+      display: flex; align-items: center;
+      gap: 14px; margin-bottom: 16px;
+    }
+
+    .card-emoji {
+      width: 40px; height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--mod-color-bg, rgba(108,99,255,0.1));
+      border: 1px solid var(--mod-color-bd, rgba(108,99,255,0.2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem; flex-shrink: 0;
+    }
+
+    .card-title {
+      font-size: 1rem; font-weight: 700;
+      color: var(--text); letter-spacing: -0.01em;
+    }
+
+    /* ─── ELI5 Block ───────────────────────────── */
+    .eli5 {
+      background: rgba(255,255,255,0.022);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--mod-color, #6c63ff);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 13px 16px; margin-bottom: 16px;
+    }
+
+    .eli5-tag {
+      display: inline-flex; align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--mod-color, #6c63ff);
+      background: var(--mod-color-bg, rgba(108,99,255,0.1));
+      border: 1px solid var(--mod-color-bd, rgba(108,99,255,0.2));
+      border-radius: 4px; padding: 2px 6px;
+      margin-bottom: 7px;
+    }
+
+    .eli5 p {
+      font-style: italic; color: var(--text2);
+      font-size: 0.88rem; line-height: 1.65;
+    }
+
+    .eli5 p strong { font-style: normal; color: var(--text); }
+
+    /* ─── Card Body ────────────────────────────── */
+    .card-body { font-size: 0.88rem; color: var(--text2); line-height: 1.72; }
+    .card-body p { margin-bottom: 10px; }
+    .card-body p:last-child { margin-bottom: 0; }
+    .card-body strong { color: var(--text); }
+
+    .card-body ul, .card-body ol {
+      padding-left: 0; margin: 8px 0; list-style: none;
+    }
+
+    .card-body ul li {
+      padding: 3px 0 3px 18px; position: relative;
+    }
+    .card-body ul li::before {
+      content: '›'; position: absolute; left: 0;
+      color: var(--mod-color, #6c63ff); font-weight: 700;
+    }
+
+    .card-body ol { counter-reset: li; }
+    .card-body ol li {
+      padding: 3px 0 3px 22px; position: relative;
+      counter-increment: li;
+    }
+    .card-body ol li::before {
+      content: counter(li) '.'; position: absolute; left: 0;
+      color: var(--mod-color, #6c63ff);
+      font-weight: 700; font-size: 0.8rem;
+    }
+
+    code {
+      font-family: var(--font-mono); font-size: 0.81em;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--border);
+      border-radius: 4px; padding: 1px 5px; color: var(--text);
+    }
+
+    /* ─── Code Block ───────────────────────────── */
+    .code-block {
+      background: #090b12;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px; overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    .code-block pre {
+      font-family: var(--font-mono); font-size: 0.79rem;
+      line-height: 1.62; color: #c9d1d9; white-space: pre;
+    }
+
+    .kw  { color: #ff7b72; }
+    .ty  { color: #79c0ff; }
+    .cm  { color: #8b949e; font-style: italic; }
+    .fn  { color: #d2a8ff; }
+    .st  { color: #a5d6ff; }
+    .nu  { color: #79c0ff; }
+    .va  { color: #ffa657; }
+    .op  { color: #ff7b72; }
+
+    /* ─── Formula Block ────────────────────────── */
+    .formula {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px; margin: 12px 0;
+      font-family: var(--font-mono); font-size: 0.88rem;
+      color: var(--text); text-align: center;
+    }
+    .formula small {
+      display: block; font-family: var(--font-body);
+      font-size: 0.7rem; color: var(--muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    /* ─── State Flow (Thread Lifecycle) ─────────── */
+    .state-flow {
+      display: flex; flex-wrap: wrap;
+      gap: 6px; align-items: center; margin: 10px 0;
+    }
+
+    .state-badge {
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 0.72rem; font-family: var(--font-mono);
+      font-weight: 500; border: 1px solid;
+    }
+
+    .state-arrow { color: var(--muted); font-size: 0.75rem; }
+
+    /* ─── Expand Button ────────────────────────── */
+    .expand-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 14px; padding: 6px 14px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text2);
+      font-size: 0.76rem; font-family: var(--font-body);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .expand-btn:hover {
+      background: var(--surface3); color: var(--text);
+      border-color: var(--border-light);
+    }
+    .expand-btn .chevron { transition: transform 0.25s; }
+    .expand-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+    /* ─── Collapsible ──────────────────────────── */
+    .collapsible {
+      max-height: 0; overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.38s ease, opacity 0.28s ease;
+    }
+    .collapsible.open { max-height: 3000px; opacity: 1; }
+
+    .ex-inner {
+      padding-top: 14px; font-size: 0.86rem;
+      color: var(--text2); line-height: 1.7;
+    }
+
+    .ex-inner ul { list-style: none; padding: 0; }
+    .ex-inner ul li {
+      padding: 4px 0 4px 20px; position: relative;
+    }
+    .ex-inner ul li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--mod-color, #6c63ff);
+    }
+
+    /* ─── Tips Section ─────────────────────────── */
+    .tips-section {
+      margin-top: 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+
+    .tips-btn {
+      width: 100%; display: flex; align-items: center;
+      gap: 10px; padding: 15px 20px;
+      background: none; border: none;
+      color: var(--text2); cursor: pointer;
+      font-family: var(--font-body); font-size: 0.83rem;
+      font-weight: 600; text-align: left;
+      transition: all 0.2s;
+    }
+    .tips-btn:hover { background: rgba(255,255,255,0.025); color: var(--text); }
+    .tips-btn .chevron { margin-left: auto; transition: transform 0.25s; }
+    .tips-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+    .tips-inner {
+      border-top: 1px solid var(--border);
+      padding: 0 20px 14px;
+    }
+
+    .tips-inner ul { list-style: none; padding: 10px 0 0; }
+    .tips-inner ul li {
+      padding: 6px 0 6px 26px; position: relative;
+      font-size: 0.84rem; color: var(--text2); line-height: 1.6;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .tips-inner ul li:last-child { border-bottom: none; }
+    .tips-inner ul li::before {
+      content: '💡'; position: absolute;
+      left: 0; font-size: 0.75rem; top: 8px;
+    }
+
+    /* ─── Mobile ───────────────────────────────── */
+    @media (max-width: 768px) {
+      #hamburger { display: flex; }
+      #sidebar-overlay { display: block; }
+
+      .app-layout { grid-template-columns: 1fr; }
+
+      #sidebar {
+        position: fixed; top: 0; left: 0;
+        height: 100vh; width: var(--sidebar-w);
+        z-index: 95; padding-top: calc(var(--header-h) + 16px);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      #sidebar.open { transform: translateX(0); }
+
+      #main-content { padding: 28px 22px 60px; }
+    }
+
+    @media (max-width: 480px) {
+      #main-content { padding: 20px 16px 60px; }
+      .concept-card { padding: 18px 16px; }
+      .module-title { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="sidebar-overlay"></div>
+
+<header>
+  <button id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="2" y1="4" x2="14" y2="4"/>
+      <line x1="2" y1="8" x2="14" y2="8"/>
+      <line x1="2" y1="12" x2="14" y2="12"/>
+    </svg>
+  </button>
+  <div class="header-brand">
+    <h1 class="header-title">Parallel <span>Programming</span></h1>
+    <span class="header-sub">ELI5 Guide</span>
+  </div>
+</header>
+
+<div class="app-layout">
+
+<!-- ═══════════════════════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════════════════════ -->
+<nav id="sidebar" aria-label="Module navigation">
+  <div class="nav-top-label">Modules</div>
+
+  <!-- Module 1 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🚀</span>
+      <span class="nav-mod-name">Introduction</span>
+      <span class="nav-prog-pill" id="prog-intro">0/4</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-intro"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#intro-what"        data-concept="intro-what">What is Parallel Programming?</a></li>
+      <li><a class="nav-item" href="#intro-concurrency" data-concept="intro-concurrency">Concurrency vs Parallelism</a></li>
+      <li><a class="nav-item" href="#intro-processes"   data-concept="intro-processes">Processes vs Threads</a></li>
+      <li><a class="nav-item" href="#intro-why"         data-concept="intro-why">Why It Matters</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 2 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🧵</span>
+      <span class="nav-mod-name">Threads & Sync</span>
+      <span class="nav-prog-pill" id="prog-threads">0/6</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-threads"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#threads-what"      data-concept="threads-what">What is a Thread?</a></li>
+      <li><a class="nav-item" href="#threads-lifecycle" data-concept="threads-lifecycle">Thread Lifecycle</a></li>
+      <li><a class="nav-item" href="#threads-race"      data-concept="threads-race">Race Conditions</a></li>
+      <li><a class="nav-item" href="#threads-atomic"    data-concept="threads-atomic">Non-Atomic Operations</a></li>
+      <li><a class="nav-item" href="#threads-critical"  data-concept="threads-critical">Critical Sections &amp; Mutex</a></li>
+      <li><a class="nav-item" href="#threads-locks"     data-concept="threads-locks">Locks &amp; synchronized</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 3 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">⚠️</span>
+      <span class="nav-mod-name">Sync Hazards</span>
+      <span class="nav-prog-pill" id="prog-hazards">0/5</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-hazards"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#hazards-deadlock"     data-concept="hazards-deadlock">Deadlock</a></li>
+      <li><a class="nav-item" href="#hazards-livelock"     data-concept="hazards-livelock">Livelock</a></li>
+      <li><a class="nav-item" href="#hazards-starvation"   data-concept="hazards-starvation">Starvation</a></li>
+      <li><a class="nav-item" href="#hazards-interleaving" data-concept="hazards-interleaving">Bad Interleavings</a></li>
+      <li><a class="nav-item" href="#hazards-producer"     data-concept="hazards-producer">Producer-Consumer</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 4 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">⚙️</span>
+      <span class="nav-mod-name">Hardware</span>
+      <span class="nav-prog-pill" id="prog-hardware">0/6</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-hardware"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#hw-vonneumann" data-concept="hw-vonneumann">Von Neumann Architecture</a></li>
+      <li><a class="nav-item" href="#hw-memory"     data-concept="hw-memory">Memory Hierarchy</a></li>
+      <li><a class="nav-item" href="#hw-cache"      data-concept="hw-cache">Cache Coherence</a></li>
+      <li><a class="nav-item" href="#hw-simd"       data-concept="hw-simd">Vectorization / SIMD</a></li>
+      <li><a class="nav-item" href="#hw-ilp"        data-concept="hw-ilp">Instruction-Level Parallelism</a></li>
+      <li><a class="nav-item" href="#hw-multicore"  data-concept="hw-multicore">Multi-core Processors</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 5 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">📊</span>
+      <span class="nav-mod-name">Performance</span>
+      <span class="nav-prog-pill" id="prog-perf">0/6</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-perf"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#perf-metrics"     data-concept="perf-metrics">Key Metrics Overview</a></li>
+      <li><a class="nav-item" href="#perf-work"        data-concept="perf-work">Work (T₁)</a></li>
+      <li><a class="nav-item" href="#perf-span"        data-concept="perf-span">Span (T∞)</a></li>
+      <li><a class="nav-item" href="#perf-amdahl"      data-concept="perf-amdahl">Amdahl's Law</a></li>
+      <li><a class="nav-item" href="#perf-gustafson"   data-concept="perf-gustafson">Gustafson's Law</a></li>
+      <li><a class="nav-item" href="#perf-parallelism" data-concept="perf-parallelism">Parallelism = T₁/T∞</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 6 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🔱</span>
+      <span class="nav-mod-name">Divide &amp; Conquer</span>
+      <span class="nav-prog-pill" id="prog-divide">0/7</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-divide"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#dc-approach"    data-concept="dc-approach">Divide &amp; Conquer</a></li>
+      <li><a class="nav-item" href="#dc-threadpool"  data-concept="dc-threadpool">Thread Pools &amp; ExecutorService</a></li>
+      <li><a class="nav-item" href="#dc-cutoff"      data-concept="dc-cutoff">Sequential Cutoff</a></li>
+      <li><a class="nav-item" href="#dc-forkjoin"    data-concept="dc-forkjoin">ForkJoin Framework</a></li>
+      <li><a class="nav-item" href="#dc-dag"         data-concept="dc-dag">DAGs — Task Graphs</a></li>
+      <li><a class="nav-item" href="#dc-workstealing" data-concept="dc-workstealing">Work-Stealing Scheduler</a></li>
+      <li><a class="nav-item" href="#dc-recursive"   data-concept="dc-recursive">RecursiveTask Pattern</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════════════════════════ -->
+<main id="main-content">
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 1 — INTRODUCTION
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="intro"
+  style="--mod-color:#6c63ff; --mod-color-bg:rgba(108,99,255,0.1); --mod-color-bd:rgba(108,99,255,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🚀</div>
+    <div class="module-meta">
+      <div class="module-num">Module 01</div>
+      <h2 class="module-title">Introduction</h2>
+      <p class="module-desc">What &amp; Why of Parallel Programming</p>
+    </div>
+  </div>
+
+  <!-- Card 1 -->
+  <article class="concept-card" id="intro-what" data-concept="intro-what" data-module="intro">
+    <div class="card-hd">
+      <div class="card-emoji">🤔</div>
+      <h3 class="card-title">What is Parallel Programming?</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Imagine you have 1000 dishes to wash. Doing them one-by-one is <strong>sequential</strong>. Calling 4 friends to each wash 250 dishes <strong>at the same time</strong> is parallel programming.</p>
+    </div>
+    <div class="card-body">
+      <p>Parallel programming divides a computation into independent subtasks that execute simultaneously across multiple processors or cores — reducing total wall-clock time. It's the answer to "how do we go faster when a single core can't go much faster?"</p>
+    </div>
+    <button class="expand-btn" data-target="ex-intro-what" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-intro-what">
+      <div class="ex-inner">
+        <ul>
+          <li>Rendering a 3D scene: divide the image into tiles, each core renders its tile independently</li>
+          <li>Sorting a billion numbers: split the array, sort each half in parallel, then merge</li>
+          <li>Web server handling 1000 requests: each request handled by a separate thread simultaneously</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="concept-card" id="intro-concurrency" data-concept="intro-concurrency" data-module="intro">
+    <div class="card-hd">
+      <div class="card-emoji">🔀</div>
+      <h3 class="card-title">Concurrency vs Parallelism</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p><strong>Concurrency</strong> = one barista taking orders from multiple customers, switching between them. <strong>Parallelism</strong> = multiple baristas, each serving their own customer <strong>at the same time</strong>.</p>
+    </div>
+    <div class="card-body">
+      <p>These two concepts are often confused but are fundamentally distinct:</p>
+      <ul>
+        <li><strong>Concurrency</strong> is about <em>dealing with</em> multiple things at once — interleaving tasks by switching between them. A single-core CPU can be concurrent.</li>
+        <li><strong>Parallelism</strong> is about <em>doing</em> multiple things at once — true simultaneous execution, requiring multiple cores or CPUs.</li>
+      </ul>
+      <p>All parallel programs are concurrent, but not all concurrent programs are parallel.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-intro-concurrency" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-intro-concurrency">
+      <div class="ex-inner">
+        <ul>
+          <li><strong>Concurrency:</strong> A single-core OS running a browser + music player (fast context switching creates the illusion of simultaneity)</li>
+          <li><strong>Parallelism:</strong> A 4-core CPU running 4 threads genuinely at the same time, each on its own core</li>
+          <li><strong>Chef analogy:</strong> One chef (concurrency) = chops onions, stirs pot, checks oven in rotation. Two chefs (parallelism) = one chops, one stirs simultaneously.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="concept-card" id="intro-processes" data-concept="intro-processes" data-module="intro">
+    <div class="card-hd">
+      <div class="card-emoji">🏠</div>
+      <h3 class="card-title">Processes vs Threads</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>A <strong>process</strong> is like a house — it has its own kitchen, bedroom, everything isolated. A <strong>thread</strong> is like a person in a shared apartment — multiple people share the same kitchen (memory) but each has their own room (stack).</p>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Process:</strong> An independently running program instance with its own memory space, file handles, and resources. Isolated — a crash in one doesn't affect others. Context switching between processes is expensive.</li>
+        <li><strong>Thread:</strong> A lightweight unit of execution <em>within</em> a process. Threads share the heap but each has its own stack and program counter. Cheaper to create and switch than processes.</li>
+      </ul>
+      <p>Key implication: because threads share memory, they communicate easily — but they can also <em>interfere</em> with each other, leading to race conditions.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-intro-processes" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-intro-processes">
+      <div class="ex-inner">
+        <ul>
+          <li>Chrome uses <strong>separate processes per tab</strong> for isolation — crashing one tab leaves others alive</li>
+          <li>A web server uses <strong>threads per request</strong> so they can share connection pools and caches in the same process</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 4 -->
+  <article class="concept-card" id="intro-why" data-concept="intro-why" data-module="intro">
+    <div class="card-hd">
+      <div class="card-emoji">📈</div>
+      <h3 class="card-title">Why It Matters</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>For decades, every new CPU was just faster (higher clock speed). Then physics hit a wall. We can't keep making individual cores faster. Instead, we got <strong>more cores</strong>. Parallel programming is how software uses them all.</p>
+    </div>
+    <div class="card-body">
+      <p>Moore's Law (transistor count doubling every ~2 years) continues, but <strong>clock speed</strong> stopped scaling around 2004 due to heat and power constraints. Modern CPUs have 4, 8, 16, or more cores.</p>
+      <p>A program that only uses one core leaves the other 15 idle. Without parallel programming, your 16-core machine runs most software no faster than a single-core machine from a decade ago.</p>
+    </div>
+  </article>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-intro" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-intro">
+      <div class="tips-inner">
+        <ul>
+          <li>Don't confuse concurrency with parallelism — a single-core CPU can be concurrent but <em>never</em> truly parallel.</li>
+          <li>Threads are lighter than processes, but sharing memory means you must manage synchronization carefully.</li>
+          <li>The OS scheduler decides <em>when</em> threads run — you don't control exact timing.</li>
+          <li>"More threads ≠ faster" — there's overhead to creating and switching threads. Understand the bottleneck first.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 2 — THREADS & SYNCHRONIZATION
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="threads"
+  style="--mod-color:#00bcd4; --mod-color-bg:rgba(0,188,212,0.1); --mod-color-bd:rgba(0,188,212,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🧵</div>
+    <div class="module-meta">
+      <div class="module-num">Module 02</div>
+      <h2 class="module-title">Threads &amp; Synchronization</h2>
+      <p class="module-desc">The building blocks — and why they're tricky</p>
+    </div>
+  </div>
+
+  <!-- Card 1 -->
+  <article class="concept-card" id="threads-what" data-concept="threads-what" data-module="threads">
+    <div class="card-hd">
+      <div class="card-emoji">👷</div>
+      <h3 class="card-title">What is a Thread?</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>A thread is like a worker in a factory. The factory (process) owns all the tools and materials. Each worker (thread) follows their own set of instructions independently, but uses the <strong>shared tools</strong>.</p>
+    </div>
+    <div class="card-body">
+      <p>A thread is an independent sequence of instructions sharing memory with other threads in the same process. Each thread has its own:</p>
+      <ul>
+        <li><strong>Stack</strong> — local variables, method call frames</li>
+        <li><strong>Program counter</strong> — which instruction it's currently executing</li>
+      </ul>
+      <p>All threads in a process share: the <strong>heap</strong> (objects), <strong>static fields</strong>, and <strong>open file handles</strong>.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-threads-what" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-threads-what">
+      <div class="ex-inner">
+        <div class="code-block"><pre>
+<span class="ty">Thread</span> t = <span class="kw">new</span> <span class="ty">Thread</span>(() -&gt; {
+    System.out.<span class="fn">println</span>(<span class="st">"Thread ID: "</span> + Thread.<span class="fn">currentThread</span>().<span class="fn">getId</span>());
+});
+t.<span class="fn">start</span>();  <span class="cm">// start() ≠ run()! run() executes in the CURRENT thread</span></pre></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="concept-card" id="threads-lifecycle" data-concept="threads-lifecycle" data-module="threads">
+    <div class="card-hd">
+      <div class="card-emoji">🔄</div>
+      <h3 class="card-title">Thread Lifecycle</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>A thread's life is like an employee's workday: <strong>hired</strong> (NEW) → <strong>clocked in, waiting for a task</strong> (RUNNABLE) → <strong>waiting for a colleague</strong> (BLOCKED/WAITING) → <strong>clocked out</strong> (TERMINATED).</p>
+    </div>
+    <div class="card-body">
+      <div class="state-flow">
+        <span class="state-badge" style="color:#6c63ff;border-color:#6c63ff;background:rgba(108,99,255,0.1)">NEW</span>
+        <span class="state-arrow">→</span>
+        <span class="state-badge" style="color:#00bcd4;border-color:#00bcd4;background:rgba(0,188,212,0.1)">RUNNABLE</span>
+        <span class="state-arrow">→</span>
+        <span class="state-badge" style="color:#f5a623;border-color:#f5a623;background:rgba(245,166,35,0.1)">BLOCKED</span>
+        <span class="state-arrow">/</span>
+        <span class="state-badge" style="color:#f5a623;border-color:#f5a623;background:rgba(245,166,35,0.1)">WAITING</span>
+        <span class="state-arrow">→</span>
+        <span class="state-badge" style="color:#e05555;border-color:#e05555;background:rgba(224,85,85,0.1)">TERMINATED</span>
+      </div>
+      <ul>
+        <li><strong>NEW:</strong> Thread object created, <code>.start()</code> not yet called</li>
+        <li><strong>RUNNABLE:</strong> Eligible to run; OS scheduler decides <em>when</em></li>
+        <li><strong>BLOCKED:</strong> Waiting to acquire a monitor lock held by another thread</li>
+        <li><strong>WAITING:</strong> Waiting indefinitely via <code>wait()</code>, <code>join()</code>, or <code>park()</code></li>
+        <li><strong>TIMED_WAITING:</strong> Waiting for a set duration — <code>sleep(ms)</code>, <code>wait(ms)</code></li>
+        <li><strong>TERMINATED:</strong> Execution complete or exception thrown</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="concept-card" id="threads-race" data-concept="threads-race" data-module="threads">
+    <div class="card-hd">
+      <div class="card-emoji">🏎️</div>
+      <h3 class="card-title">Race Conditions</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Two people editing the same Google Doc offline. Person A writes "Hello World", person B writes "Hi Planet". When they sync — one overwrites the other. The final result depends on <strong>who synced last</strong>, not intent.</p>
+    </div>
+    <div class="card-body">
+      <p>A <strong>race condition</strong> occurs when the correctness of a program depends on the relative timing or interleaving of threads. With identical inputs, the program may produce different outputs on different runs. They're notoriously hard to reproduce and debug because they're timing-dependent.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-threads-race" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-threads-race">
+      <div class="ex-inner">
+        <p>Classic: two threads both doing <code>counter++</code></p>
+        <ul>
+          <li>Thread A reads counter: value = 5</li>
+          <li>Thread B reads counter: value = 5  ← same stale value!</li>
+          <li>Thread A writes 6</li>
+          <li>Thread B writes 6  ← should be 7, but overwrites A's result</li>
+        </ul>
+        <p style="margin-top:8px">Final: <strong>6</strong> instead of <strong>7</strong>. One increment silently lost.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 4 -->
+  <article class="concept-card" id="threads-atomic" data-concept="threads-atomic" data-module="threads">
+    <div class="card-hd">
+      <div class="card-emoji">⚛️</div>
+      <h3 class="card-title">Non-Atomic Operations</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p><code>counter += 1</code> looks like one step, but it's secretly <strong>three</strong>: read the value, add 1, write back. Another thread can barge in between any of these steps and corrupt the result.</p>
+    </div>
+    <div class="card-body">
+      <p>At the bytecode level, <code>this.value += delta</code> compiles to multiple instructions:</p>
+      <ol>
+        <li><code>getfield</code> — load current value from memory</li>
+        <li><code>iload</code> — load delta onto stack</li>
+        <li><code>iadd</code> — add them</li>
+        <li><code>putfield</code> — write result back to memory</li>
+      </ol>
+      <p>A <strong>context switch</strong> can happen between <em>any</em> of these steps. An operation is <strong>atomic</strong> if it completes in a single, non-interruptible step. Java's <code>AtomicInteger</code> uses CPU-level compare-and-swap for true atomicity without locks.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-threads-atomic" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-threads-atomic">
+      <div class="ex-inner">
+        <ul>
+          <li><code>int x = 5</code> — <strong>atomic</strong> (single write)</li>
+          <li><code>x++</code> — <strong>NOT atomic</strong> (read-modify-write, 3 steps)</li>
+          <li><code>AtomicInteger.incrementAndGet()</code> — <strong>atomic</strong> via CAS (compare-and-swap)</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 5 -->
+  <article class="concept-card" id="threads-critical" data-concept="threads-critical" data-module="threads">
+    <div class="card-hd">
+      <div class="card-emoji">🚪</div>
+      <h3 class="card-title">Critical Sections &amp; Mutual Exclusion</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>A single-occupancy bathroom. Only one person can use it at a time. The door lock is <strong>mutual exclusion</strong>. The bathroom itself is the <strong>critical section</strong>.</p>
+    </div>
+    <div class="card-body">
+      <p>A <strong>critical section</strong> is code that accesses shared mutable state and must not execute concurrently. <strong>Mutual exclusion</strong> (mutex) guarantees only one thread is inside at any given time.</p>
+      <p>Requirements for a correct mutex:</p>
+      <ul>
+        <li><strong>Safety:</strong> At most one thread in the critical section at a time</li>
+        <li><strong>Liveness:</strong> Every thread that wants to enter eventually does</li>
+        <li><strong>No unnecessary delay:</strong> Threads outside the critical section don't block others</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- Card 6 -->
+  <article class="concept-card" id="threads-locks" data-concept="threads-locks" data-module="threads">
+    <div class="card-hd">
+      <div class="card-emoji">🔒</div>
+      <h3 class="card-title">Locks &amp; <code>synchronized</code></h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p><code>synchronized</code> is the lock on the bathroom door. When a thread enters, it <strong>acquires the lock</strong>. Others find it locked and wait. When the thread exits, it <strong>releases the lock</strong> and one waiter may enter.</p>
+    </div>
+    <div class="card-body">
+      <p>In Java, every object has an intrinsic monitor lock. <code>synchronized</code> uses it:</p>
+      <ul>
+        <li><strong>Reentrant:</strong> A thread holding a lock can re-acquire it (prevents self-deadlock in recursive calls)</li>
+        <li><strong>Automatic release:</strong> Lock is always released on block exit, even if an exception is thrown</li>
+        <li><strong>Memory visibility:</strong> <code>synchronized</code> also ensures writes are visible to other threads</li>
+      </ul>
+    </div>
+    <button class="expand-btn" data-target="ex-threads-locks" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-threads-locks">
+      <div class="ex-inner">
+        <div class="code-block"><pre>
+<span class="cm">// Method form — locks 'this'</span>
+<span class="kw">public synchronized void</span> <span class="fn">increment</span>() { count++; }
+
+<span class="cm">// Block form — locks a specific object</span>
+<span class="kw">synchronized</span>(lock) { count++; }</pre></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-threads" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-threads">
+      <div class="tips-inner">
+        <ul>
+          <li>Always call <code>.start()</code>, never <code>.run()</code> — <code>.run()</code> executes in the <em>current</em> thread, defeating the purpose.</li>
+          <li>Keep <code>synchronized</code> blocks as short as possible — long critical sections cause contention.</li>
+          <li>Synchronize on a <strong>private final</strong> object, not <code>this</code> — external code could also lock on <code>this</code> and interfere.</li>
+          <li><code>volatile</code> only fixes <em>visibility</em> (ensures reads see latest writes) but does NOT make compound operations atomic.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 3 — SYNCHRONIZATION HAZARDS
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="hazards"
+  style="--mod-color:#e05555; --mod-color-bg:rgba(224,85,85,0.1); --mod-color-bd:rgba(224,85,85,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">⚠️</div>
+    <div class="module-meta">
+      <div class="module-num">Module 03</div>
+      <h2 class="module-title">Synchronization Hazards</h2>
+      <p class="module-desc">What goes wrong when threads interact</p>
+    </div>
+  </div>
+
+  <!-- Card 1 -->
+  <article class="concept-card" id="hazards-deadlock" data-concept="hazards-deadlock" data-module="hazards">
+    <div class="card-hd">
+      <div class="card-emoji">🥢</div>
+      <h3 class="card-title">Deadlock</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Two people at dinner, each holding one chopstick, each waiting for the other to put theirs down first. <strong>Neither will ever eat</strong>. They're stuck forever.</p>
+    </div>
+    <div class="card-body">
+      <p>A deadlock occurs when two or more threads are each waiting for a resource held by another, creating a circular dependency. All four <strong>Coffman conditions</strong> must hold simultaneously:</p>
+      <ol>
+        <li><strong>Mutual exclusion:</strong> Resources can't be shared</li>
+        <li><strong>Hold and wait:</strong> Thread holds one resource while waiting for another</li>
+        <li><strong>No preemption:</strong> Resources can only be released voluntarily</li>
+        <li><strong>Circular wait:</strong> A→B→C→A dependency chain</li>
+      </ol>
+      <p><strong>Prevention:</strong> always acquire multiple locks in the same global order across all threads.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-hazards-deadlock" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-hazards-deadlock">
+      <div class="ex-inner">
+        <div class="code-block"><pre>
+<span class="cm">// Thread 1: lock A then B</span>
+<span class="kw">synchronized</span>(lockA) { <span class="kw">synchronized</span>(lockB) { ... } }
+
+<span class="cm">// Thread 2: lock B then A  ← OPPOSITE ORDER = deadlock risk!</span>
+<span class="kw">synchronized</span>(lockB) { <span class="kw">synchronized</span>(lockA) { ... } }
+
+<span class="cm">// Fix: always acquire in the same order (A then B) everywhere</span></pre></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="concept-card" id="hazards-livelock" data-concept="hazards-livelock" data-module="hazards">
+    <div class="card-hd">
+      <div class="card-emoji">🚶</div>
+      <h3 class="card-title">Livelock</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Two people walking toward each other in a narrow hallway. Both step right to let the other pass. Both step left. Both step right again... <strong>forever</strong>. They keep moving but make zero progress.</p>
+    </div>
+    <div class="card-body">
+      <p>A livelock is like a deadlock, but threads are <em>not</em> blocked — they're actively running, just not making progress. Each thread responds to the other's state in a way that perpetually undoes the other's action.</p>
+      <p>Livelocks are harder to detect than deadlocks because the system <em>appears</em> busy (CPU is being used) but no useful work is done. Often caused by overly "polite" retry logic — add random backoff to break the symmetry.</p>
+    </div>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="concept-card" id="hazards-starvation" data-concept="hazards-starvation" data-module="hazards">
+    <div class="card-hd">
+      <div class="card-emoji">🍽️</div>
+      <h3 class="card-title">Starvation</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>You're waiting in line at a restaurant but every time you're about to be served, a VIP customer cuts in front. You wait <strong>forever</strong>, even though the restaurant is running fine for everyone else.</p>
+    </div>
+    <div class="card-body">
+      <p>Starvation occurs when a thread is perpetually denied access to a resource because other threads always get it first. The system as a whole makes progress — but the starving thread never does.</p>
+      <p>Common causes:</p>
+      <ul>
+        <li>Unfair lock implementations (no FIFO ordering guarantee)</li>
+        <li>Thread priority starvation (high-priority threads monopolize CPU)</li>
+        <li>Overloaded thread pools (tasks never reach the front of the queue)</li>
+      </ul>
+      <p>Java's <code>ReentrantLock(true)</code> uses a <strong>fair</strong> lock with FIFO ordering to prevent starvation.</p>
+    </div>
+  </article>
+
+  <!-- Card 4 -->
+  <article class="concept-card" id="hazards-interleaving" data-concept="hazards-interleaving" data-module="hazards">
+    <div class="card-hd">
+      <div class="card-emoji">🃏</div>
+      <h3 class="card-title">Bad Interleavings</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Two chefs following the same recipe. Each step is fine alone. But if Chef A adds salt, then Chef B adds salt before either checks — the dish gets <strong>double the salt</strong>. Same steps, wrong order.</p>
+    </div>
+    <div class="card-body">
+      <p>An <strong>interleaving</strong> is any possible ordering of instructions from multiple threads. A <strong>bad interleaving</strong> is one that produces incorrect results. The insidious part: most interleavings are fine — only a rare few are problematic, making bugs hard to reproduce.</p>
+      <p>Synchronization's job: restrict the set of possible interleavings to only the correct ones.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-hazards-interleaving" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-hazards-interleaving">
+      <div class="ex-inner">
+        <ul>
+          <li>Thread A checks <code>if (list.isEmpty())</code> → Thread B adds an element → Thread A calls <code>list.get(0)</code> thinking it's empty → crash</li>
+          <li>Thread A checks <code>balance &gt;= amount</code> → Thread B withdraws → Thread A withdraws → <strong>overdraft</strong></li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 5 -->
+  <article class="concept-card" id="hazards-producer" data-concept="hazards-producer" data-module="hazards">
+    <div class="card-hd">
+      <div class="card-emoji">🍞</div>
+      <h3 class="card-title">Producer-Consumer Pattern</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>A baker (producer) puts loaves on a shelf. A cashier (consumer) takes them to sell. If the baker's too fast, the shelf overflows. If the cashier's too fast, they grab from an empty shelf. They need to <strong>coordinate</strong>.</p>
+    </div>
+    <div class="card-body">
+      <p>The Producer-Consumer pattern decouples data production from consumption via a shared buffer. Critical invariants:</p>
+      <ul>
+        <li><strong>Consumer must wait</strong> if the buffer is empty</li>
+        <li><strong>Producer must wait</strong> if the buffer is full</li>
+      </ul>
+      <p>Naïve <code>synchronized</code>-only implementations lead to deadlock: the consumer waits while holding the lock, blocking the producer from adding items. Use <code>wait()</code>/<code>notifyAll()</code> — or better, Java's <code>BlockingQueue</code> which handles all coordination internally.</p>
+    </div>
+    <button class="expand-btn" data-target="ex-hazards-producer" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-hazards-producer">
+      <div class="ex-inner">
+        <div class="code-block"><pre>
+<span class="ty">BlockingQueue</span>&lt;<span class="ty">Item</span>&gt; queue = <span class="kw">new</span> <span class="ty">LinkedBlockingQueue</span>&lt;&gt;(capacity);
+
+<span class="cm">// Producer thread:</span>
+queue.<span class="fn">put</span>(item);   <span class="cm">// blocks if full — no overflow possible</span>
+
+<span class="cm">// Consumer thread:</span>
+<span class="ty">Item</span> item = queue.<span class="fn">take</span>(); <span class="cm">// blocks if empty — no underflow possible</span></pre></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-hazards" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-hazards">
+      <div class="tips-inner">
+        <ul>
+          <li>To prevent deadlock: always acquire multiple locks in the <strong>same global order</strong> across all threads — never opposite orders.</li>
+          <li>Livelock is often caused by over-eager retry logic — add <strong>random backoff</strong> (like Ethernet's CSMA/CD) to break the symmetry.</li>
+          <li>Prefer <code>BlockingQueue</code> over manual <code>wait()</code>/<code>notify()</code> coordination for producer-consumer.</li>
+          <li>Java's <code>synchronized</code> is <strong>not fair</strong> — there's no FIFO ordering. Use <code>ReentrantLock(true)</code> when fairness matters.</li>
+          <li>Deadlock detection: thread dumps (<code>jstack</code>) show which thread holds which locks and who's waiting for whom.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 4 — HARDWARE PARALLELISM
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="hardware"
+  style="--mod-color:#f5a623; --mod-color-bg:rgba(245,166,35,0.1); --mod-color-bd:rgba(245,166,35,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">⚙️</div>
+    <div class="module-meta">
+      <div class="module-num">Module 04</div>
+      <h2 class="module-title">Hardware Parallelism</h2>
+      <p class="module-desc">Parallelism baked into silicon</p>
+    </div>
+  </div>
+
+  <!-- Card 1 -->
+  <article class="concept-card" id="hw-vonneumann" data-concept="hw-vonneumann" data-module="hardware">
+    <div class="card-hd">
+      <div class="card-emoji">🖥️</div>
+      <h3 class="card-title">Von Neumann Architecture</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>The CPU is the chef, RAM is the fridge, and the program is the recipe. The chef can only cook as fast as they can <strong>walk to the fridge and back</strong> to fetch ingredients. The bus between them is the bottleneck.</p>
+    </div>
+    <div class="card-body">
+      <p>Modern computers follow the Von Neumann model: a single CPU, shared memory for both data and instructions, connected by a bus. This creates the <strong>Von Neumann bottleneck</strong>: the CPU is almost always faster than memory — it spends much of its time <em>waiting for data</em>. This fundamental tension motivates caches, out-of-order execution, and ultimately parallelism.</p>
+    </div>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="concept-card" id="hw-memory" data-concept="hw-memory" data-module="hardware">
+    <div class="card-hd">
+      <div class="card-emoji">🗃️</div>
+      <h3 class="card-title">Memory Hierarchy</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Registers = your <strong>pocket</strong> (tiny, instant). L1/L2 = your <strong>desk</strong> (small, fast). L3 = your <strong>filing cabinet</strong> (medium, decent). RAM = the <strong>library down the hall</strong>. Disk = a <strong>warehouse in another city</strong>.</p>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Registers:</strong> ~1 cycle — on the CPU die itself</li>
+        <li><strong>L1 cache:</strong> ~4 cycles — per-core, 32–64 KB</li>
+        <li><strong>L2 cache:</strong> ~12 cycles — per-core, 256 KB – 1 MB</li>
+        <li><strong>L3 cache:</strong> ~40 cycles — shared across cores, 4–32 MB</li>
+        <li><strong>RAM:</strong> ~100–300 cycles — gigabytes of capacity</li>
+        <li><strong>SSD:</strong> ~10,000 cycles — terabytes but very far away</li>
+      </ul>
+      <p>A single <strong>cache miss</strong> costs 100–300 cycles — time the CPU could have executed ~100 instructions. Writing cache-friendly code (sequential access, small working sets) often beats algorithmic improvements.</p>
+    </div>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="concept-card" id="hw-cache" data-concept="hw-cache" data-module="hardware">
+    <div class="card-hd">
+      <div class="card-emoji">📋</div>
+      <h3 class="card-title">Cache Coherence</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Two chefs each keep a personal notepad (cache). If Chef A changes "2 eggs" to "3 eggs" on their notepad, Chef B's notepad still says "2 eggs". They're now working from <strong>inconsistent information</strong>.</p>
+    </div>
+    <div class="card-body">
+      <p>In a multi-core CPU, each core has its own L1/L2 cache. When two cores cache the same address and one writes to it, the other's copy becomes <strong>stale</strong>. Cache coherence protocols (like <strong>MESI</strong> — Modified, Exclusive, Shared, Invalid) track state across all cores and automatically invalidate stale copies.</p>
+      <p><strong>False sharing:</strong> two threads writing to <em>different</em> variables that happen to share a cache line cause constant invalidations — even though they don't logically share data. A major hidden source of slowdown.</p>
+    </div>
+  </article>
+
+  <!-- Card 4 -->
+  <article class="concept-card" id="hw-simd" data-concept="hw-simd" data-module="hardware">
+    <div class="card-hd">
+      <div class="card-emoji">🥔</div>
+      <h3 class="card-title">Vectorization / SIMD</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Instead of peeling one potato at a time, use a machine that clamps <strong>8 potatoes at once</strong> and peels all 8 in one motion. Same effort — 8× the throughput.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>SIMD</strong> (Single Instruction, Multiple Data) applies one operation to multiple data elements simultaneously. A 256-bit vector register holds 8 floats (32-bit each) and can add all 8 pairs with a single instruction instead of 8 separate additions.</p>
+      <p>Compilers often <strong>auto-vectorize</strong> simple loops. Key requirement: each iteration must be independent — no data dependency between loop iterations.</p>
+    </div>
+  </article>
+
+  <!-- Card 5 -->
+  <article class="concept-card" id="hw-ilp" data-concept="hw-ilp" data-module="hardware">
+    <div class="card-hd">
+      <div class="card-emoji">⚡</div>
+      <h3 class="card-title">Instruction-Level Parallelism (ILP)</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>While the water is boiling, you can chop vegetables. The two tasks are <strong>independent</strong> — you don't need to wait for one before starting the other. A smart CPU does the same with instructions.</p>
+    </div>
+    <div class="card-body">
+      <p>Modern CPUs execute multiple independent instructions <em>per clock cycle</em>:</p>
+      <ul>
+        <li><strong>Superscalar execution:</strong> Multiple execution units (ALU, FPU, load/store) running in parallel</li>
+        <li><strong>Out-of-order execution:</strong> CPU reorders independent instructions to avoid stalls</li>
+        <li><strong>Speculative execution:</strong> CPU predicts branch outcomes and executes ahead</li>
+      </ul>
+      <p>ILP is managed entirely by hardware. But code structure matters: long dependency chains (output of step N feeds step N+1) limit ILP. Straight-line code and loop unrolling improve it.</p>
+    </div>
+  </article>
+
+  <!-- Card 6 -->
+  <article class="concept-card" id="hw-multicore" data-concept="hw-multicore" data-module="hardware">
+    <div class="card-hd">
+      <div class="card-emoji">🔧</div>
+      <h3 class="card-title">Multi-core Processors</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Instead of making one chef impossibly fast, <strong>hire multiple chefs</strong>. Each has their own workstation but they share the pantry (RAM). A 4-core CPU is 4 chefs sharing one kitchen.</p>
+    </div>
+    <div class="card-body">
+      <p>A multi-core processor integrates multiple complete CPU cores on a single chip. Each core independently executes threads. Cores share L3 cache and main memory but have private L1/L2 caches. The hardware cache coherence protocol keeps them consistent.</p>
+      <p>The number of threads that can <em>truly</em> run in parallel is bounded by the number of logical CPUs (including hyperthreading). More threads than cores means time-slicing, not true parallelism.</p>
+    </div>
+  </article>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-hardware" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-hardware">
+      <div class="tips-inner">
+        <ul>
+          <li>Access arrays <strong>sequentially</strong> — sequential access is cache-friendly (spatial locality). Random access causes cache misses.</li>
+          <li>Avoid <strong>false sharing</strong>: if two threads write to adjacent variables, pad them to be 64 bytes apart (one cache line), or use <code>@Contended</code> in Java.</li>
+          <li>On modern CPUs, <code>synchronized</code> compiles down to <code>compare-and-swap</code> (x86) or <code>LL/SC</code> (ARM) — hardware atomic instructions.</li>
+          <li>Vectorization requires loop bodies with no side effects, no function calls, and no data dependencies between iterations.</li>
+          <li>Hyperthreading shares physical core resources between 2 logical threads — useful for I/O-bound work, limited benefit for compute-bound work.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 5 — PERFORMANCE & SCALABILITY
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="perf"
+  style="--mod-color:#2ecc71; --mod-color-bg:rgba(46,204,113,0.1); --mod-color-bd:rgba(46,204,113,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">📊</div>
+    <div class="module-meta">
+      <div class="module-num">Module 05</div>
+      <h2 class="module-title">Performance &amp; Scalability</h2>
+      <p class="module-desc">Measuring and reasoning about parallel speedup</p>
+    </div>
+  </div>
+
+  <!-- Card 1 -->
+  <article class="concept-card" id="perf-metrics" data-concept="perf-metrics" data-module="perf">
+    <div class="card-hd">
+      <div class="card-emoji">📏</div>
+      <h3 class="card-title">Key Metrics: T₁, T∞, Sₚ, Efficiency</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p><strong>T₁</strong> = one person does everything alone. <strong>T∞</strong> = infinite people, but bottlenecked by tasks that <em>must</em> be sequential. <strong>Speedup</strong> = how much faster with p workers. <strong>Efficiency</strong> = are your workers actually busy, or standing around?</p>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><strong>T₁ (Work):</strong> Total execution time on 1 processor — the sequential baseline</li>
+        <li><strong>T∞ (Span):</strong> Time with infinite processors — limited by the longest dependency chain</li>
+        <li><strong>Speedup Sₚ = T₁ / Tₚ:</strong> How much faster on p processors. Linear speedup (Sₚ = p) is ideal, rarely achieved.</li>
+        <li><strong>Efficiency Eₚ = Sₚ / p:</strong> Fraction of time each processor does useful work. 1.0 = perfect; 0.5 = processors idle half the time.</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="concept-card" id="perf-work" data-concept="perf-work" data-module="perf">
+    <div class="card-hd">
+      <div class="card-emoji">🏋️</div>
+      <h3 class="card-title">Work (T₁)</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Work is the total amount of "stuff" to do, regardless of how many workers you have. If you need to paint 100 fence posts, the total work is always 100 posts — dividing it among workers <strong>doesn't change the total</strong>, just how fast it gets done.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>Work T₁</strong> is the sum of all computation across all nodes in the task graph — the time a single processor would take to execute the entire program. It's independent of the number of processors.</p>
+      <p>Work gives a lower bound: <strong>Tₚ ≥ T₁/p</strong> — you can't go faster than if all processors worked with zero overhead.</p>
+      <div class="formula"><small>Work Law</small> Tₚ ≥ T₁ / p</div>
+    </div>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="concept-card" id="perf-span" data-concept="perf-span" data-module="perf">
+    <div class="card-hd">
+      <div class="card-emoji">📍</div>
+      <h3 class="card-title">Span (T∞) — The Critical Path</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>You're baking a cake: mix (5 min), bake (30 min), decorate (10 min). Even with 100 helpers, you can't finish in under 45 min — these steps <strong>must happen in order</strong>. That 45 min chain is the span.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>Span T∞</strong> is the length of the critical path — the longest chain of sequentially dependent tasks. It's the minimum possible execution time even with unlimited processors.</p>
+      <p>The ratio <strong>T₁/T∞</strong> is the maximum useful parallelism — the most processors you could keep productively busy at once.</p>
+      <div class="formula"><small>Span Law</small> Tₚ ≥ T∞</div>
+    </div>
+  </article>
+
+  <!-- Card 4 -->
+  <article class="concept-card" id="perf-amdahl" data-concept="perf-amdahl" data-module="perf">
+    <div class="card-hd">
+      <div class="card-emoji">🧱</div>
+      <h3 class="card-title">Amdahl's Law</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>You're moving apartments. Carrying boxes can be parallelized with helpers, but packing, driving, and unpacking are sequential. Even with 100 helpers for the carrying — the sequential parts still bottleneck you. <strong>That bottleneck is Amdahl's Law.</strong></p>
+    </div>
+    <div class="card-body">
+      <p>Amdahl's Law gives the <strong>maximum speedup</strong> for a fixed problem size:</p>
+      <div class="formula"><small>Amdahl's Law</small>Sₚ ≤ 1 / (f + (1 − f) / p)</div>
+      <p>Where <code>f</code> = sequential fraction, <code>p</code> = processors. As p → ∞, speedup → <strong>1/f</strong>.</p>
+      <ul>
+        <li>10% sequential code → max <strong>10×</strong> speedup, ever</li>
+        <li>5% sequential → max 20×</li>
+        <li>1% sequential → max 100×</li>
+      </ul>
+      <p>Example: 20% sequential, 8 cores: S₈ = 1/(0.2 + 0.8/8) = <strong>3.33</strong> (not 8). <strong>Optimize the sequential part first</strong> — it has disproportionate impact.</p>
+    </div>
+  </article>
+
+  <!-- Card 5 -->
+  <article class="concept-card" id="perf-gustafson" data-concept="perf-gustafson" data-module="perf">
+    <div class="card-hd">
+      <div class="card-emoji">🚀</div>
+      <h3 class="card-title">Gustafson's Law</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Amdahl asks: "same problem, more workers — how much <em>faster</em>?" Gustafson asks: "same time, more workers — how much <em>bigger</em> a problem can we solve?" With 8 workers you can tackle an <strong>8× bigger job</strong> in the same time.</p>
+    </div>
+    <div class="card-body">
+      <p>Gustafson's Law is the <strong>optimistic</strong> counterpart to Amdahl, for <em>scaling the problem size</em>:</p>
+      <div class="formula"><small>Gustafson's Law</small>Sₚ = p − f · (p − 1)</div>
+      <p>As you add processors, you scale the problem to fill them. The sequential overhead stays constant while the parallel work grows — making the sequential fraction proportionally smaller. Real-world HPC workloads (weather simulation, protein folding) behave this way: more cores = bigger simulations in the same time.</p>
+      <p><strong>Amdahl</strong> = strong scaling (fixed problem). <strong>Gustafson</strong> = weak scaling (bigger problem). Both matter.</p>
+    </div>
+  </article>
+
+  <!-- Card 6 -->
+  <article class="concept-card" id="perf-parallelism" data-concept="perf-parallelism" data-module="perf">
+    <div class="card-hd">
+      <div class="card-emoji">🔀</div>
+      <h3 class="card-title">Parallelism = T₁/T∞</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>How many workers could you <em>actually</em> keep busy at once on this problem? That's the parallelism. If parallelism is 16, adding a <strong>17th worker won't help</strong> — there's simply not enough independent work.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>Parallelism = T₁/T∞</strong> — the maximum average number of processors that can be productively employed simultaneously.</p>
+      <div class="formula"><small>Maximum Useful Parallelism</small>Parallelism = T₁ / T∞</div>
+      <p>To increase parallelism: <strong>reduce span</strong> (shorten the critical path) and/or <strong>increase independent work</strong>. Sequential code that forces a dependency chain increases T∞ and shrinks parallelism.</p>
+    </div>
+  </article>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-perf" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-perf">
+      <div class="tips-inner">
+        <ul>
+          <li>Measure speedup relative to the <strong>best sequential algorithm</strong>, not the serialized version of your parallel code — otherwise the numbers look better than they are.</li>
+          <li><strong>Profile</strong> to find the actual sequential fraction — it's almost always higher than you think (I/O, synchronization, JVM startup).</li>
+          <li>"Superlinear" speedup (Sₚ &gt; p) is real — it can occur when the per-core working set fits in cache, while the sequential version thrashes the cache.</li>
+          <li>Efficiency below 0.5 usually signals too much synchronization overhead or poor load balancing.</li>
+          <li>Amdahl limits <strong>strong scaling</strong>. Gustafson enables <strong>weak scaling</strong>. For most scientific workloads, weak scaling is the relevant regime.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 6 — DIVIDE & CONQUER + FRAMEWORKS
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="divide"
+  style="--mod-color:#a855f7; --mod-color-bg:rgba(168,85,247,0.1); --mod-color-bd:rgba(168,85,247,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🔱</div>
+    <div class="module-meta">
+      <div class="module-num">Module 06</div>
+      <h2 class="module-title">Divide &amp; Conquer + Frameworks</h2>
+      <p class="module-desc">Patterns for practical parallel computation</p>
+    </div>
+  </div>
+
+  <!-- Card 1 -->
+  <article class="concept-card" id="dc-approach" data-concept="dc-approach" data-module="divide">
+    <div class="card-hd">
+      <div class="card-emoji">✂️</div>
+      <h3 class="card-title">Divide &amp; Conquer Parallelism</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>You have 1024 papers to grade. Give 512 to a colleague, keep 512 yourself. Each of you splits again. Keep splitting until piles are small enough to grade directly. Then the grades bubble back up to a final total. Split = "divide", grade = "conquer", combine = "combine".</p>
+    </div>
+    <div class="card-body">
+      <p>Divide and conquer is the fundamental pattern for parallel computation:</p>
+      <ol>
+        <li><strong>Divide:</strong> Split the problem into two or more independent subproblems</li>
+        <li><strong>Conquer:</strong> Solve each subproblem recursively, in parallel</li>
+        <li><strong>Combine:</strong> Merge the results</li>
+      </ol>
+      <p>It works because subproblems are <em>independent</em> — they don't share mutable state. The recursion tree has depth T∞ = O(log n) and total work T₁ = O(n). Works for: sorting, searching, reductions, matrix operations.</p>
+    </div>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="concept-card" id="dc-threadpool" data-concept="dc-threadpool" data-module="divide">
+    <div class="card-hd">
+      <div class="card-emoji">🏭</div>
+      <h3 class="card-title">Thread Pools &amp; ExecutorService</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Don't hire and fire workers for every single task — that's expensive. Instead, <strong>hire a fixed crew</strong>. When a task arrives, an available worker picks it up. When done, they grab the next task from the queue.</p>
+    </div>
+    <div class="card-body">
+      <p>Creating a new OS thread for every small task is prohibitively expensive (~1ms per thread). Thread pools pre-create worker threads and maintain a task queue. Workers pull from the queue when idle.</p>
+      <ul>
+        <li><code>Callable&lt;T&gt;</code> — returns a value</li>
+        <li><code>Runnable</code> — void, fire-and-forget</li>
+        <li><code>Future&lt;T&gt;</code> — represents a pending result; <code>.get()</code> blocks until ready</li>
+      </ul>
+    </div>
+    <button class="expand-btn" data-target="ex-dc-threadpool" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-dc-threadpool">
+      <div class="ex-inner">
+        <div class="code-block"><pre>
+<span class="ty">ExecutorService</span> pool = <span class="ty">Executors</span>.<span class="fn">newFixedThreadPool</span>(<span class="nu">4</span>);
+<span class="ty">Future</span>&lt;<span class="ty">Integer</span>&gt; result = pool.<span class="fn">submit</span>(() -&gt; <span class="fn">expensiveCalculation</span>());
+<span class="ty">Integer</span> value = result.<span class="fn">get</span>(); <span class="cm">// blocks until done</span>
+pool.<span class="fn">shutdown</span>();</pre></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="concept-card" id="dc-cutoff" data-concept="dc-cutoff" data-module="divide">
+    <div class="card-hd">
+      <div class="card-emoji">🍕</div>
+      <h3 class="card-title">Sequential Cutoff &amp; Granularity</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>You're slicing a pizza. Cutting it in half is efficient — two people eat simultaneously. But cutting each slice into 1000 crumbs and handing them to 1000 people is absurd — the <strong>coordination overhead swamps any benefit</strong>. There's a sweet spot.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>Sequential cutoff:</strong> below a threshold problem size, stop recursing and solve sequentially. The overhead of creating/scheduling a task must be justified by the parallel work it unlocks. Rule of thumb: cutoff when N &lt; 500–1000 for simple operations.</p>
+      <p><strong>Granularity tradeoffs:</strong></p>
+      <ul>
+        <li><strong>Too coarse:</strong> few large tasks → some cores starve (load imbalance)</li>
+        <li><strong>Too fine:</strong> many tiny tasks → scheduling overhead dominates</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- Card 4 -->
+  <article class="concept-card" id="dc-forkjoin" data-concept="dc-forkjoin" data-module="divide">
+    <div class="card-hd">
+      <div class="card-emoji">🍴</div>
+      <h3 class="card-title">ForkJoin Framework</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p><code>fork()</code> = "start working on this subtask and I'll continue." <code>join()</code> = "wait until that subtask is done." Java's ForkJoin framework manages the underlying threads <strong>so you don't have to</strong>.</p>
+    </div>
+    <div class="card-body">
+      <p>Java's <code>ForkJoinPool</code> (Java 7+) is designed for divide-and-conquer parallelism. Unlike <code>ExecutorService</code>, it doesn't deadlock on recursive task submission — it <em>suspends</em> waiting tasks rather than blocking threads.</p>
+      <ul>
+        <li><strong><code>RecursiveTask&lt;V&gt;</code>:</strong> returns a value — override <code>compute()</code></li>
+        <li><strong><code>RecursiveAction</code>:</strong> void — for in-place operations like sorting</li>
+      </ul>
+    </div>
+    <button class="expand-btn" data-target="ex-dc-forkjoin" aria-expanded="false">
+      <span class="toggle-label">Show</span> Examples <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="ex-dc-forkjoin">
+      <div class="ex-inner">
+        <div class="code-block"><pre>
+<span class="kw">class</span> <span class="ty">SumTask</span> <span class="kw">extends</span> <span class="ty">RecursiveTask</span>&lt;<span class="ty">Long</span>&gt; {
+    <span class="kw">protected</span> <span class="ty">Long</span> <span class="fn">compute</span>() {
+        <span class="kw">if</span> (size &lt;= CUTOFF) <span class="kw">return</span> <span class="fn">sequentialSum</span>();
+        <span class="ty">SumTask</span> left = <span class="kw">new</span> <span class="ty">SumTask</span>(array, lo, mid);
+        left.<span class="fn">fork</span>();             <span class="cm">// async: start left half</span>
+        <span class="ty">Long</span> right = <span class="kw">new</span> <span class="ty">SumTask</span>(array, mid, hi).<span class="fn">compute</span>();
+        <span class="kw">return</span> left.<span class="fn">join</span>() + right; <span class="cm">// wait for left + combine</span>
+    }
+}
+<span class="ty">ForkJoinPool</span> pool = <span class="kw">new</span> <span class="ty">ForkJoinPool</span>();
+<span class="ty">long</span> total = pool.<span class="fn">invoke</span>(<span class="kw">new</span> <span class="ty">SumTask</span>(array, <span class="nu">0</span>, array.length));</pre></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 5 -->
+  <article class="concept-card" id="dc-dag" data-concept="dc-dag" data-module="divide">
+    <div class="card-hd">
+      <div class="card-emoji">🕸️</div>
+      <h3 class="card-title">DAGs — Task Dependency Graphs</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Think of a recipe. Some steps can happen simultaneously (chop onions while water boils). Others must wait (add onions only after both are done). Drawing these dependencies gives you a DAG — a <strong>roadmap of what can run in parallel</strong>.</p>
+    </div>
+    <div class="card-body">
+      <p>A <strong>Directed Acyclic Graph (DAG)</strong> represents parallel computation structure:</p>
+      <ul>
+        <li><strong>Nodes:</strong> individual tasks (with a cost/weight)</li>
+        <li><strong>Edges:</strong> dependencies (B must wait for A → edge A→B)</li>
+        <li><strong>Acyclic:</strong> no circular dependencies (otherwise: deadlock)</li>
+      </ul>
+      <p>The <strong>critical path</strong> = the longest path through the DAG = T∞. Wider DAGs = more parallelism. The DAG is typically implicit and dynamic — it unfolds as the program runs.</p>
+    </div>
+  </article>
+
+  <!-- Card 6 -->
+  <article class="concept-card" id="dc-workstealing" data-concept="dc-workstealing" data-module="divide">
+    <div class="card-hd">
+      <div class="card-emoji">🥷</div>
+      <h3 class="card-title">Work-Stealing Scheduler</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Each worker has their own queue of tasks. When a worker finishes their queue, instead of idling, they <strong>secretly steal tasks</strong> from the back of a busy worker's queue. Everyone stays productive without a central coordinator.</p>
+    </div>
+    <div class="card-body">
+      <p>Work-stealing is the scheduling algorithm used by <code>ForkJoinPool</code>. Each worker thread has a <strong>double-ended queue (deque)</strong>:</p>
+      <ul>
+        <li>Workers push/pop their own tasks from the <strong>front</strong> (LIFO — good cache locality)</li>
+        <li>Idle workers steal from the <strong>back</strong> of others' queues (FIFO — avoids contention)</li>
+      </ul>
+      <p>This is self-balancing: highly recursive tasks stay local (cache-friendly), while load imbalance is corrected by stealing.</p>
+      <div class="formula"><small>Graham's Theorem (1968)</small>Tₚ ≤ T₁/p + T∞</div>
+    </div>
+  </article>
+
+  <!-- Card 7 -->
+  <article class="concept-card" id="dc-recursive" data-concept="dc-recursive" data-module="divide">
+    <div class="card-hd">
+      <div class="card-emoji">🌲</div>
+      <h3 class="card-title">RecursiveTask Pattern</h3>
+    </div>
+    <div class="eli5">
+      <div class="eli5-tag">ELI5</div>
+      <p>Write your parallel algorithm like a normal recursive function. Where you'd call yourself twice, <code>fork()</code> one call (runs in parallel) and directly execute the other. Then <code>join()</code> the forked one. That's <strong>the whole pattern</strong>.</p>
+    </div>
+    <div class="card-body">
+      <p>Standard ForkJoin template — fork left, compute right directly in current thread, join left:</p>
+      <div class="code-block"><pre>
+<span class="va">left</span>.<span class="fn">fork</span>();                    <span class="cm">// left runs asynchronously</span>
+<span class="ty">V</span> <span class="va">rightResult</span> = <span class="va">right</span>.<span class="fn">compute</span>(); <span class="cm">// right runs in this thread</span>
+<span class="ty">V</span> <span class="va">leftResult</span>  = <span class="va">left</span>.<span class="fn">join</span>();    <span class="cm">// wait for left, get result</span>
+<span class="kw">return</span> <span class="fn">combine</span>(<span class="va">leftResult</span>, <span class="va">rightResult</span>);</pre></div>
+      <p>Why compute one directly? <strong>Halves thread creation.</strong> Why fork left first? Left may start running before right completes — more overlap opportunity. Always set a <code>SEQUENTIAL_CUTOFF</code> for base cases.</p>
+    </div>
+  </article>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-divide" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-divide">
+      <div class="tips-inner">
+        <ul>
+          <li>Fork the <em>left</em> subtask, compute the <em>right</em> one directly in the current thread — this halves thread creation while maintaining full parallelism.</li>
+          <li>Use <code>RecursiveTask&lt;V&gt;</code> when you need a return value, <code>RecursiveAction</code> for void tasks (like in-place sort).</li>
+          <li>Work-stealing makes unbalanced trees efficient — don't over-engineer task balancing; let the scheduler handle it.</li>
+          <li>Never block a ForkJoin thread on external I/O — use <code>ManagedBlocker</code> or a separate thread pool.</li>
+          <li>The <code>ForkJoinPool.commonPool()</code> is shared JVM-wide — avoid blocking tasks there.</li>
+          <li>Sequential cutoff is <em>critical</em> — without it, ForkJoin overhead makes parallel code slower than sequential for small inputs.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div><!-- .app-layout -->
+
+<script>
+// ── State ──────────────────────────────────────────────
+const visited = new Set();
+const modColors = {
+  intro:    '#6c63ff', threads: '#00bcd4',
+  hazards:  '#e05555', hardware: '#f5a623',
+  perf:     '#2ecc71', divide:   '#a855f7'
+};
+const modTotals = {
+  intro: 4, threads: 6, hazards: 5,
+  hardware: 6, perf: 6, divide: 7
+};
+
+// ── Collapsibles ───────────────────────────────────────
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-target]');
+  if (!btn) return;
+  const targetEl = document.getElementById(btn.dataset.target);
+  if (!targetEl) return;
+  const isOpen = targetEl.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  const lbl = btn.querySelector('.toggle-label');
+  if (lbl) lbl.textContent = isOpen ? 'Hide' : 'Show';
+  const chev = btn.querySelector('.chevron');
+  if (chev) chev.style.transform = isOpen ? 'rotate(180deg)' : '';
+});
+
+// ── Progress ───────────────────────────────────────────
+function updateProgress(moduleId) {
+  const total   = modTotals[moduleId] || 0;
+  const visitedCount = [...document.querySelectorAll(`[data-module="${moduleId}"][data-concept]`)]
+    .filter(el => visited.has(el.dataset.concept)).length;
+  const pill = document.getElementById(`prog-${moduleId}`);
+  if (pill) {
+    pill.textContent = `${visitedCount}/${total}`;
+    if (visitedCount === total) {
+      pill.style.color = modColors[moduleId];
+      pill.style.borderColor = modColors[moduleId];
+    }
+  }
+  const fill = document.getElementById(`fill-${moduleId}`);
+  if (fill) {
+    fill.style.width = total ? `${(visitedCount / total) * 100}%` : '0%';
+    fill.style.background = modColors[moduleId] || '#6c63ff';
+  }
+}
+
+// ── Scroll Spy ─────────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const conceptId = entry.target.dataset.concept;
+    const moduleId  = entry.target.dataset.module;
+    if (!conceptId) return;
+    // Mark visited
+    if (!visited.has(conceptId)) {
+      visited.add(conceptId);
+      updateProgress(moduleId);
+    }
+    // Update active nav
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.remove('active');
+      item.style.removeProperty('--nav-accent');
+    });
+    const activeLink = document.querySelector(`.nav-item[href="#${conceptId}"]`);
+    if (activeLink) {
+      activeLink.classList.add('active');
+      activeLink.style.setProperty('--nav-accent', modColors[moduleId] || '#6c63ff');
+      activeLink.style.background = `${modColors[moduleId]}0f`;
+    }
+  });
+}, {
+  threshold: 0.25,
+  rootMargin: '-58px 0px -45% 0px'
+});
+
+document.querySelectorAll('[data-concept]').forEach(el => observer.observe(el));
+
+// ── Mobile Sidebar ─────────────────────────────────────
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebar-overlay');
+const hamburger = document.getElementById('hamburger');
+
+function setSidebar(open) {
+  sidebar.classList.toggle('open', open);
+  overlay.classList.toggle('visible', open);
+  hamburger.setAttribute('aria-expanded', open);
+}
+
+hamburger.addEventListener('click', () => setSidebar(!sidebar.classList.contains('open')));
+overlay.addEventListener('click',   () => setSidebar(false));
+
+// Close sidebar on nav link click (mobile)
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    if (window.innerWidth <= 768) setSidebar(false);
+    // Brief card highlight
+    const conceptId = item.dataset.concept;
+    if (conceptId) {
+      const card = document.getElementById(conceptId);
+      if (card) {
+        card.classList.remove('flash');
+        void card.offsetWidth; // reflow to restart animation
+        card.classList.add('flash');
+        card.addEventListener('animationend', () => card.classList.remove('flash'), { once: true });
+      }
+    }
+  });
+});
+
+// Init progress display
+Object.keys(modTotals).forEach(updateProgress);
+</script>
+</body>
+</html>
