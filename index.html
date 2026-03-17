@@ -718,6 +718,168 @@
       <li><a class="nav-item" href="#sync-vthreads"   data-concept="sync-vthreads">Virtual Threads</a></li>
     </ul>
   </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 11 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🖥️</span>
+      <span class="nav-mod-name">Monitors</span>
+      <span class="nav-prog-pill" id="prog-monitors">0/6</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-monitors"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#mon-pattern"   data-concept="mon-pattern">Producer-Consumer</a></li>
+      <li><a class="nav-item" href="#mon-buffer"    data-concept="mon-buffer">Bounded Buffer</a></li>
+      <li><a class="nav-item" href="#mon-semaphore" data-concept="mon-semaphore">Semaphore Solution</a></li>
+      <li><a class="nav-item" href="#mon-monitor"   data-concept="mon-monitor">What is a Monitor?</a></li>
+      <li><a class="nav-item" href="#mon-java"      data-concept="mon-java">Java wait / notify</a></li>
+      <li><a class="nav-item" href="#mon-condition" data-concept="mon-condition">Condition Objects</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 12 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">📖</span>
+      <span class="nav-mod-name">R/W Locks &amp; Granularity</span>
+      <span class="nav-prog-pill" id="prog-rwlocks">0/5</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-rwlocks"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#rw-explicitlocks" data-concept="rw-explicitlocks">Explicit Locks &amp; Conditions</a></li>
+      <li><a class="nav-item" href="#rw-barber"        data-concept="rw-barber">Sleeping Barber</a></li>
+      <li><a class="nav-item" href="#rw-rwlock"        data-concept="rw-rwlock">Reader/Writer Locks</a></li>
+      <li><a class="nav-item" href="#rw-granularity"   data-concept="rw-granularity">Lock Granularity</a></li>
+      <li><a class="nav-item" href="#rw-handover"      data-concept="rw-handover">Hand-Over-Hand Locking</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 13 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🎯</span>
+      <span class="nav-mod-name">Optimistic &amp; Lazy Sync</span>
+      <span class="nav-prog-pill" id="prog-optsync">0/6</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-optsync"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#opt-finegrained" data-concept="opt-finegrained">Fine-Grained Locking</a></li>
+      <li><a class="nav-item" href="#opt-optimistic"  data-concept="opt-optimistic">Optimistic Sync</a></li>
+      <li><a class="nav-item" href="#opt-lazy"        data-concept="opt-lazy">Lazy Sync</a></li>
+      <li><a class="nav-item" href="#opt-skiplist"    data-concept="opt-skiplist">Lazy Skip Lists</a></li>
+      <li><a class="nav-item" href="#opt-motivation"  data-concept="opt-motivation">Lock-Free Motivation</a></li>
+      <li><a class="nav-item" href="#opt-nonblocking" data-concept="opt-nonblocking">Lock-Free vs Wait-Free</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 14 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">⚛️</span>
+      <span class="nav-mod-name">Lock-Free Structures</span>
+      <span class="nav-prog-pill" id="prog-lockfree">0/5</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-lockfree"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#lf-atomicref" data-concept="lf-atomicref">Atomic References</a></li>
+      <li><a class="nav-item" href="#lf-stack"     data-concept="lf-stack">Lock-Free Stack</a></li>
+      <li><a class="nav-item" href="#lf-list"      data-concept="lf-list">Lock-Free List</a></li>
+      <li><a class="nav-item" href="#lf-queue"     data-concept="lf-queue">Lock-Free Queue</a></li>
+      <li><a class="nav-item" href="#lf-backoff"   data-concept="lf-backoff">Exponential Backoff</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 15 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🔗</span>
+      <span class="nav-mod-name">Lock-Free Queue Protocol</span>
+      <span class="nav-prog-pill" id="prog-lfqueue">0/4</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-lfqueue"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#lfq-sentinel" data-concept="lfq-sentinel">Sentinel Node</a></li>
+      <li><a class="nav-item" href="#lfq-enqueue"  data-concept="lfq-enqueue">M&amp;S Enqueue</a></li>
+      <li><a class="nav-item" href="#lfq-dequeue"  data-concept="lfq-dequeue">M&amp;S Dequeue</a></li>
+      <li><a class="nav-item" href="#lfq-helping"  data-concept="lfq-helping">Helping Mechanism</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 16 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🔄</span>
+      <span class="nav-mod-name">ABA &amp; Linearizability</span>
+      <span class="nav-prog-pill" id="prog-aba">0/5</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-aba"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#aba-problem"  data-concept="aba-problem">The ABA Problem</a></li>
+      <li><a class="nav-item" href="#aba-dcas"     data-concept="aba-dcas">DCAS &amp; Pointer Tagging</a></li>
+      <li><a class="nav-item" href="#aba-hazard"   data-concept="aba-hazard">Hazard Pointers</a></li>
+      <li><a class="nav-item" href="#aba-linear"   data-concept="aba-linear">Linearizability</a></li>
+      <li><a class="nav-item" href="#aba-examples" data-concept="aba-examples">Linearizability Examples</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 17 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">⚖️</span>
+      <span class="nav-mod-name">Consistency Models</span>
+      <span class="nav-prog-pill" id="prog-consistency">0/4</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-consistency"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#con-formalism"  data-concept="con-formalism">Linearizability Formalism</a></li>
+      <li><a class="nav-item" href="#con-seqconsist" data-concept="con-seqconsist">Sequential Consistency</a></li>
+      <li><a class="nav-item" href="#con-quiescent"  data-concept="con-quiescent">Quiescent Consistency</a></li>
+      <li><a class="nav-item" href="#con-compare"    data-concept="con-compare">Model Comparison</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 18 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🤝</span>
+      <span class="nav-mod-name">Consensus &amp; STM</span>
+      <span class="nav-prog-pill" id="prog-consensus">0/5</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-consensus"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#cns-problem"   data-concept="cns-problem">Consensus Problem</a></li>
+      <li><a class="nav-item" href="#cns-hierarchy" data-concept="cns-hierarchy">Consensus Hierarchy</a></li>
+      <li><a class="nav-item" href="#cns-stm"       data-concept="cns-stm">Transactional Memory</a></li>
+      <li><a class="nav-item" href="#cns-design"    data-concept="cns-design">TM Design Choices</a></li>
+      <li><a class="nav-item" href="#cns-clockstm"  data-concept="cns-clockstm">Clock-Based STM</a></li>
+    </ul>
+  </div>
+  <div class="nav-divider"></div>
+
+  <!-- Module 19 -->
+  <div class="nav-module">
+    <div class="nav-module-hd">
+      <span class="nav-mod-emoji">🌐</span>
+      <span class="nav-mod-name">Distributed &amp; MPI</span>
+      <span class="nav-prog-pill" id="prog-distrib">0/5</span>
+    </div>
+    <div class="nav-prog-track"><div class="nav-prog-fill" id="fill-distrib"></div></div>
+    <ul class="nav-items">
+      <li><a class="nav-item" href="#dist-arch"    data-concept="dist-arch">Distributed Memory</a></li>
+      <li><a class="nav-item" href="#dist-msgpass" data-concept="dist-msgpass">Message Passing</a></li>
+      <li><a class="nav-item" href="#dist-go"      data-concept="dist-go">Go Concurrency Model</a></li>
+      <li><a class="nav-item" href="#dist-mpi"     data-concept="dist-mpi">MPI</a></li>
+      <li><a class="nav-item" href="#dist-perf"    data-concept="dist-perf">Data Locality &amp; HPC</a></li>
+    </ul>
+  </div>
 </nav>
 
 <!-- ═══════════════════════════════════════════════════════
@@ -2385,17 +2547,1294 @@ barrier.<span class="fn">await</span>(); <span class="cm">// blocks until all N 
   </div>
 </section>
 
+<!-- ╔══════════════════════════════════════════
+     MODULE 11 — MONITORS
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="monitors"
+  style="--mod-color:#14b8a6; --mod-color-bg:rgba(20,184,166,0.1); --mod-color-bd:rgba(20,184,166,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🖥️</div>
+    <div class="module-meta">
+      <div class="module-num">Module 11</div>
+      <h2 class="module-title">Monitors</h2>
+      <p class="module-desc">Producer-Consumer, Bounded Buffers &amp; the Monitor Pattern</p>
+    </div>
+  </div>
+
+  <article class="concept-card" id="mon-pattern" data-concept="mon-pattern" data-module="monitors">
+    <div class="card-hd">
+      <div class="card-emoji">🏭</div>
+      <h3 class="card-title">Producer-Consumer Pattern</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Imagine a <strong>bakery conveyor belt</strong>: bakers (producers) slide bread onto the belt; customers (consumers) take it from the other end. Neither side coordinates directly — the belt is the shared buffer.</p>
+    </div>
+    <div class="card-body">
+      <p>A fundamental concurrency pattern: <strong>producer threads</strong> generate items and put them in a shared buffer; <strong>consumer threads</strong> pull items out and process them.</p>
+      <ul>
+        <li>Decouples producers and consumers so they can run at different speeds</li>
+        <li>Enables <strong>pipeline architectures</strong> — one stage's output is the next stage's input</li>
+        <li>Core challenge: block producers when the buffer is <strong>full</strong>, block consumers when it's <strong>empty</strong></li>
+      </ul>
+      <button class="expand-btn" data-target="ex-mon-pattern" aria-expanded="false">
+        <span class="toggle-label">Show</span> Example ▾
+      </button>
+      <div class="collapsible" id="ex-mon-pattern">
+        <div class="ex-inner">
+          <ul>
+            <li><strong>Web server:</strong> network I/O threads produce requests → worker threads consume &amp; handle them</li>
+            <li><strong>Video player:</strong> decoder produces frames → renderer consumes &amp; displays them</li>
+            <li><strong>Logger:</strong> app threads produce log lines → background writer consumes &amp; flushes to disk</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="concept-card" id="mon-buffer" data-concept="mon-buffer" data-module="monitors">
+    <div class="card-hd">
+      <div class="card-emoji">🔁</div>
+      <h3 class="card-title">Bounded Buffer</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>A <strong>circular conveyor belt at a sushi restaurant</strong> with a fixed number of plate spots. Chefs stop adding when it's full; customers wait when it's empty. Plates cycle around without ever needing a "reset".</p>
+    </div>
+    <div class="card-body">
+      <p>Implemented as a <strong>circular array</strong> with two index pointers:</p>
+      <ul>
+        <li><strong><code>in</code>:</strong> next write position — advances with <code>(in+1) % capacity</code></li>
+        <li><strong><code>out</code>:</strong> next read position — advances the same way</li>
+        <li>One slot stays empty to tell "full" apart from "empty" — full when <code>(in+1)%cap == out</code></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="mon-semaphore" data-concept="mon-semaphore" data-module="monitors">
+    <div class="card-hd">
+      <div class="card-emoji">🔢</div>
+      <h3 class="card-title">Semaphore-Based Solution</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Three counters on a whiteboard: <strong>"items ready"</strong>, <strong>"empty slots left"</strong>, and <strong>"someone's using it now"</strong>. Check the right counter before touching the shelf — never grab the key while still waiting for stock.</p>
+    </div>
+    <div class="card-body">
+      <p>Three semaphores manage access correctly:</p>
+      <ul>
+        <li><strong><code>nonEmpty</code>:</strong> counts available items — consumers <code>acquire()</code> before taking</li>
+        <li><strong><code>nonFull</code>:</strong> counts empty slots — producers <code>acquire()</code> before adding</li>
+        <li><strong><code>mutex</code>:</strong> binary semaphore for exclusive buffer access</li>
+      </ul>
+      <p><strong>Golden rule:</strong> always acquire the <em>condition</em> semaphore before the mutex. Holding the mutex while blocking on a condition prevents anyone else from signaling it — deadlock.</p>
+    </div>
+  </article>
+
+  <article class="concept-card" id="mon-monitor" data-concept="mon-monitor" data-module="monitors">
+    <div class="card-hd">
+      <div class="card-emoji">🏛️</div>
+      <h3 class="card-title">What is a Monitor?</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>A <strong>bank teller booth</strong>: only one customer at a time (mutual exclusion), and if you need something that isn't ready yet, you <em>step aside</em> and wait on a bench until the teller calls you back.</p>
+    </div>
+    <div class="card-body">
+      <p>A <strong>monitor</strong> is a high-level abstraction that bundles data, mutual exclusion, and condition waiting into one object:</p>
+      <ul>
+        <li><strong>Encapsulation:</strong> only monitor methods can access shared data</li>
+        <li><strong>Implicit mutual exclusion:</strong> only one thread runs inside at a time</li>
+        <li><strong>Condition variables:</strong> threads can wait for state changes without polling</li>
+      </ul>
+      <p>In Java, any <code>synchronized</code> object is a monitor. Cleaner than scattered lock/unlock calls.</p>
+    </div>
+  </article>
+
+  <article class="concept-card" id="mon-java" data-concept="mon-java" data-module="monitors">
+    <div class="card-hd">
+      <div class="card-emoji">☕</div>
+      <h3 class="card-title">Java wait / notify / notifyAll</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p><code>wait()</code> = <strong>take a number and sit down</strong>. <code>notify()</code> = call one random number. <code>notifyAll()</code> = call all numbers at once. Everyone woken rushes back, but only one gets served at a time.</p>
+    </div>
+    <div class="card-body">
+      <p>Java's built-in monitor primitives (must be called inside <code>synchronized</code>):</p>
+      <ul>
+        <li><strong><code>wait()</code>:</strong> atomically releases lock + suspends thread until notified</li>
+        <li><strong><code>notify()</code>:</strong> wakes one arbitrary waiting thread</li>
+        <li><strong><code>notifyAll()</code>:</strong> wakes all — safer default choice</li>
+      </ul>
+      <p><strong>Critical: use <code>while</code>, not <code>if</code>.</strong> After waking, another thread may have stolen the condition before you reacquire the lock. The <code>while</code> loop re-checks and waits again if needed.</p>
+      <button class="expand-btn" data-target="ex-mon-java" aria-expanded="false">
+        <span class="toggle-label">Show</span> Example ▾
+      </button>
+      <div class="collapsible" id="ex-mon-java">
+        <div class="ex-inner">
+          <ul>
+            <li><code>synchronized void enqueue(T x) &#123; while (isFull()) wait(); buf[in]=x; in=(in+1)%cap; notifyAll(); &#125;</code></li>
+            <li><code>synchronized T dequeue() &#123; while (isEmpty()) wait(); T v=buf[out]; out=(out+1)%cap; notifyAll(); return v; &#125;</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="concept-card" id="mon-condition" data-concept="mon-condition" data-module="monitors">
+    <div class="card-hd">
+      <div class="card-emoji">🎛️</div>
+      <h3 class="card-title">Condition Objects</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Instead of one waiting room for everyone, you get <strong>separate waiting rooms</strong> — producers wait in "buffer full", consumers wait in "buffer empty". Now you can wake exactly the right group.</p>
+    </div>
+    <div class="card-body">
+      <p><code>java.util.concurrent.locks.Condition</code> provides multiple wait sets on one lock:</p>
+      <ul>
+        <li>Create: <code>Condition notFull = lock.newCondition();</code></li>
+        <li><code>await()</code> = <code>wait()</code>, <code>signal()</code> = <code>notify()</code>, <code>signalAll()</code> = <code>notifyAll()</code></li>
+        <li>Producers <code>signal()</code> only the <code>notEmpty</code> condition; consumers signal only <code>notFull</code> — no wasted wakeups</li>
+        <li>Always wrap in try-finally to guarantee <code>lock.unlock()</code></li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-monitors" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-monitors">
+      <div class="tips-inner">
+        <ul>
+          <li>Always use <strong><code>while</code></strong>, never <code>if</code>, around <code>wait()</code>/<code>await()</code> — spurious wakeups and "signal and continue" semantics mean the condition may be false again when you resume.</li>
+          <li>Default to <code>notifyAll()</code> / <code>signalAll()</code>. <code>notify()</code> can wake the "wrong" thread, leaving the correct waiter stranded forever.</li>
+          <li>Separate <code>Condition</code> objects (one per role) let you use targeted <code>signal()</code> safely and eliminate unnecessary wakeups.</li>
+          <li>Never spin-wait <em>while holding a monitor lock</em> — the lock prevents anyone else from changing the condition you're waiting on. Use <code>wait()</code> to release it.</li>
+          <li>In semaphore solutions: always acquire the <strong>condition semaphore before the mutex</strong>. Reversing the order causes deadlock.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 12 — R/W LOCKS & GRANULARITY
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="rwlocks"
+  style="--mod-color:#f43f5e; --mod-color-bg:rgba(244,63,94,0.1); --mod-color-bd:rgba(244,63,94,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">📖</div>
+    <div class="module-meta">
+      <div class="module-num">Module 12</div>
+      <h2 class="module-title">R/W Locks &amp; Lock Granularity</h2>
+      <p class="module-desc">Sleeping Barber, Reader-Writer Locks &amp; Fine-Grained Locking</p>
+    </div>
+  </div>
+
+  <article class="concept-card" id="rw-explicitlocks" data-concept="rw-explicitlocks" data-module="rwlocks">
+    <div class="card-hd">
+      <div class="card-emoji">🔑</div>
+      <h3 class="card-title">Explicit Locks &amp; Conditions</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Instead of a door that auto-locks (<code>synchronized</code>), you get a <strong>manual deadbolt</strong> (<code>ReentrantLock</code>) — more control, but you <em>must</em> remember to unlock it no matter what happens.</p>
+    </div>
+    <div class="card-body">
+      <p><code>ReentrantLock</code> + <code>Condition</code> gives more control than intrinsic monitors:</p>
+      <ul>
+        <li>Always unlock in a <strong>try-finally</strong> block — exceptions must not leave the lock held</li>
+        <li>Use <strong><code>while</code></strong> loops around <code>await()</code> to guard against spurious wakeups</li>
+        <li>Call <code>signal()</code> on the specific condition queue (not <code>signalAll</code>) for efficiency when roles are distinct</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="rw-barber" data-concept="rw-barber" data-module="rwlocks">
+    <div class="card-hd">
+      <div class="card-emoji">💈</div>
+      <h3 class="card-title">Sleeping Barber &amp; Lost Wakeups</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>A barber sleeps when idle. A customer arrives, sees the barber sleeping, and shouts "Wake up!" — but if the barber hasn't dozed off yet, the shout is wasted. When the barber finally naps, nobody wakes him. <strong>Signal lost!</strong></p>
+    </div>
+    <div class="card-body">
+      <p>The <strong>lost wakeup</strong> problem: a signal sent before the receiver calls <code>await()</code> is silently discarded.</p>
+      <ul>
+        <li>Fix: track waiting threads with <strong>counters</strong> (<code>n</code> for items, <code>m</code> for empty slots)</li>
+        <li>Only call <code>signal()</code> when the counter indicates threads are actually blocked</li>
+        <li>This avoids wasting signals and prevents the wakeup-before-sleep race</li>
+      </ul>
+      <button class="expand-btn" data-target="ex-rw-barber" aria-expanded="false">
+        <span class="toggle-label">Show</span> Example ▾
+      </button>
+      <div class="collapsible" id="ex-rw-barber">
+        <div class="ex-inner">
+          <ul>
+            <li><strong>Wrong:</strong> signal() is called before the thread runs await() → wakeup is lost → thread sleeps forever</li>
+            <li><strong>Fix:</strong> increment a counter before signaling; the waiting side decrements before sleeping and checks the counter on wake</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="concept-card" id="rw-rwlock" data-concept="rw-rwlock" data-module="rwlocks">
+    <div class="card-hd">
+      <div class="card-emoji">📚</div>
+      <h3 class="card-title">Reader/Writer Locks</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>A <strong>library book</strong>: many people can read it simultaneously, but if someone wants to write notes in it, everyone else must step back until they're done. Reading is shared; writing is exclusive.</p>
+    </div>
+    <div class="card-body">
+      <p>Optimized for workloads where <strong>reads vastly outnumber writes</strong>:</p>
+      <ul>
+        <li><strong>Read lock:</strong> multiple threads can hold simultaneously — great for hashtable lookups</li>
+        <li><strong>Write lock:</strong> exclusive — no readers or other writers allowed</li>
+        <li><strong>Invariant:</strong> <code>writers == 0 || readers == 0</code> with <code>writers ≤ 1</code></li>
+        <li><strong>Fairness tradeoff:</strong> readers can starve writers in naive implementations; writer-priority risks starving readers</li>
+        <li>Java: <code>ReentrantReadWriteLock</code> — note: does <em>not</em> support read-to-write upgrade</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="rw-granularity" data-concept="rw-granularity" data-module="rwlocks">
+    <div class="card-hd">
+      <div class="card-emoji">🔭</div>
+      <h3 class="card-title">Lock Granularity Spectrum</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>One <strong>master key for the whole building</strong> (coarse) is simple but creates a queue. Individual <strong>keys per room</strong> (fine) is faster but you need more keys and can accidentally deadlock by grabbing them in the wrong order.</p>
+    </div>
+    <div class="card-body">
+      <p>Five levels on the spectrum from simple → complex:</p>
+      <ul>
+        <li><strong>Coarse-grained:</strong> one lock for the whole structure — simple, low concurrency</li>
+        <li><strong>Fine-grained:</strong> one lock per component — higher concurrency, higher complexity</li>
+        <li><strong>Optimistic:</strong> traverse unlocked, validate before committing — avoids most lock acquisitions</li>
+        <li><strong>Lazy:</strong> mark deletions logically first, clean up later — simplifies remove logic</li>
+        <li><strong>Lock-free:</strong> atomics only, no locks — highest concurrency, hardest to implement</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="rw-handover" data-concept="rw-handover" data-module="rwlocks">
+    <div class="card-hd">
+      <div class="card-emoji">🤲</div>
+      <h3 class="card-title">Hand-Over-Hand Locking</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Climbing a rope: you grip the next knot <strong>before</strong> releasing the one below. You're always holding at least one knot — safe to move forward, and others can climb the lower part simultaneously.</p>
+    </div>
+    <div class="card-body">
+      <p>Safe traversal of linked lists under fine-grained locking:</p>
+      <ul>
+        <li>Always hold the <strong>current node's lock</strong> while examining it</li>
+        <li>When moving forward: lock the next node, <em>then</em> release the current one</li>
+        <li>Never release current before locking next — a concurrent delete could corrupt the traversal</li>
+        <li>Modifications across multiple nodes require <strong>holding all affected locks simultaneously</strong></li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-rwlocks" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-rwlocks">
+      <div class="tips-inner">
+        <ul>
+          <li>Always unlock in a <strong>try-finally</strong> block. An exception without finally can leave the lock permanently held.</li>
+          <li><code>ReentrantReadWriteLock</code> does not support read-to-write upgrades — attempting one deadlocks. Upgrade means: release read lock, acquire write lock (but now the state may have changed!).</li>
+          <li>For R/W fairness, use <code>new ReentrantReadWriteLock(true)</code> (fair mode) to prevent writer starvation — at the cost of some throughput.</li>
+          <li>In hand-over-hand locking, always lock in the <strong>same direction</strong> (head → tail) to avoid deadlock between concurrent traversals.</li>
+          <li>Prefer library implementations (<code>java.util.concurrent</code>) over custom synchronization in production — they handle edge cases you will miss.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 13 — OPTIMISTIC & LAZY SYNC
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="optsync"
+  style="--mod-color:#0ea5e9; --mod-color-bg:rgba(14,165,233,0.1); --mod-color-bd:rgba(14,165,233,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🎯</div>
+    <div class="module-meta">
+      <div class="module-num">Module 13</div>
+      <h2 class="module-title">Optimistic &amp; Lazy Sync</h2>
+      <p class="module-desc">Skip Lists, Lock-Free Motivation &amp; Progress Guarantees</p>
+    </div>
+  </div>
+
+  <article class="concept-card" id="opt-finegrained" data-concept="opt-finegrained" data-module="optsync">
+    <div class="card-hd">
+      <div class="card-emoji">🔬</div>
+      <h3 class="card-title">Fine-Grained Locking</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Instead of one lock on the whole list, each node has its own tiny lock. Multiple threads can work on <strong>different parts of the list simultaneously</strong> — but you have to lock two nodes at once to safely connect or remove one.</p>
+    </div>
+    <div class="card-body">
+      <p>Split the data structure so each piece has its own lock — increases concurrency but adds overhead:</p>
+      <ul>
+        <li>Traversal requires acquiring and releasing many locks (hand-over-hand)</li>
+        <li>A slow thread holding one node's lock blocks threads needing that node — even if they want a different operation</li>
+        <li>Correct, but the constant lock churn limits scalability</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="opt-optimistic" data-concept="opt-optimistic" data-module="optsync">
+    <div class="card-hd">
+      <div class="card-emoji">🤞</div>
+      <h3 class="card-title">Optimistic Synchronization</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Walk the store without a cart (no lock), grab what you want, then <strong>check at the checkout</strong> whether anyone moved things while you were browsing. If the shelves changed, go back and try again.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>Assume conflicts are rare</strong> — traverse without locks, then verify before committing:</p>
+      <ul>
+        <li><strong>Step 1:</strong> traverse lock-free to find target nodes</li>
+        <li><strong>Step 2:</strong> lock only the target nodes</li>
+        <li><strong>Step 3:</strong> validate — is predecessor still reachable? Is it still the immediate neighbor? Are nodes unmarked?</li>
+        <li><strong>Step 4:</strong> if validation passes, perform operation; otherwise unlock and retry</li>
+      </ul>
+      <p>Lock-free traversal allows concurrent readers, but may require double traversal. Not starvation-free — threads can retry indefinitely under high contention.</p>
+    </div>
+  </article>
+
+  <article class="concept-card" id="opt-lazy" data-concept="opt-lazy" data-module="optsync">
+    <div class="card-hd">
+      <div class="card-emoji">🏷️</div>
+      <h3 class="card-title">Lazy Synchronization</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>When removing a book from a library catalogue, you first <strong>put a sticky note saying "removed"</strong> (logical delete). The actual physical removal from the shelf happens later. Anyone can see the note immediately without needing to wait.</p>
+    </div>
+    <div class="card-body">
+      <p>Separate <strong>logical deletion</strong> (marking) from <strong>physical deletion</strong> (pointer surgery):</p>
+      <ul>
+        <li><strong>Remove:</strong> scan, lock both nodes, validate, mark node as deleted, update predecessor's pointer, unlock</li>
+        <li><strong>Key invariant:</strong> every unmarked node is reachable from head via unmarked nodes</li>
+        <li><strong>contains():</strong> wait-free — single scan, no locks, just checks the mark flag</li>
+        <li>Marked nodes linger in memory until physical removal, but <code>contains()</code> skips them</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="opt-skiplist" data-concept="opt-skiplist" data-module="optsync">
+    <div class="card-hd">
+      <div class="card-emoji">🪜</div>
+      <h3 class="card-title">Lazy Skip Lists</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>A <strong>multi-deck highway</strong>: the top deck skips large distances, lower decks fill in the details. You drop down a level whenever you overshoot. No rebalancing needed — each node's height is randomly chosen at insertion.</p>
+    </div>
+    <div class="card-body">
+      <p>Probabilistic multi-level linked list — chosen over balanced trees for easier concurrent implementation:</p>
+      <ul>
+        <li>Each node has random height: P(height=n) = 0.5ⁿ — expected O(log n) search</li>
+        <li><strong>contains():</strong> standard traversal, no locks, checks unmarked + fully-linked — fully wait-free</li>
+        <li><strong>add():</strong> find predecessors lock-free → lock them → validate → splice node at all levels → mark "fully linked" → unlock</li>
+        <li><strong>remove():</strong> find lock-free → lock victim → mark deleted → lock predecessors → update pointers → unlock</li>
+        <li>No rebalancing ever needed — probabilistic balance is good enough</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="opt-motivation" data-concept="opt-motivation" data-module="optsync">
+    <div class="card-hd">
+      <div class="card-emoji">⚡</div>
+      <h3 class="card-title">Why Locking Hurts</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Locks are like <strong>traffic lights</strong>: useful, but red lights waste time even when no other cars exist. Under heavy traffic they cause jams. And if a driver crashes at the intersection while holding green, everyone is stuck forever.</p>
+    </div>
+    <div class="card-body">
+      <p>Fundamental problems with all locking approaches:</p>
+      <ul>
+        <li><strong>Pessimistic:</strong> mutual exclusion is enforced even when there's no real conflict</li>
+        <li><strong>Priority inversion:</strong> a high-priority thread blocked on a lock held by a low-priority thread</li>
+        <li><strong>Convoying:</strong> one preempted lock holder delays every waiting thread</li>
+        <li><strong>Deadlock &amp; livelock:</strong> possible whenever multiple locks are involved</li>
+        <li><strong>Fault intolerance:</strong> a thread dying while holding a lock leaves it permanently held</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="opt-nonblocking" data-concept="opt-nonblocking" data-module="optsync">
+    <div class="card-hd">
+      <div class="card-emoji">🏁</div>
+      <h3 class="card-title">Lock-Free vs Wait-Free</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p><strong>Lock-free</strong> = at least one runner always finishes each lap, but some might run forever. <strong>Wait-free</strong> = every runner is guaranteed to finish in bounded laps — nobody starves.</p>
+    </div>
+    <div class="card-body">
+      <p>Two levels of non-blocking progress guarantees:</p>
+      <ul>
+        <li><strong>Lock-free:</strong> system-wide progress — <em>at least one</em> thread makes progress in finite steps. Individual threads may starve.</li>
+        <li><strong>Wait-free:</strong> per-thread progress — <em>every</em> thread completes in finite steps regardless of others. Strongest guarantee, hardest to implement.</li>
+      </ul>
+      <table style="width:100%; font-size:0.85rem; margin-top:8px; border-collapse:collapse;">
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="text-align:left; padding:4px 8px; color:var(--text2)"></th>
+          <th style="padding:4px 8px; color:var(--text2)">Non-blocking</th>
+          <th style="padding:4px 8px; color:var(--text2)">Blocking</th>
+        </tr>
+        <tr>
+          <td style="padding:4px 8px; color:var(--text2)">Everyone progresses</td>
+          <td style="padding:4px 8px; text-align:center">Wait-free</td>
+          <td style="padding:4px 8px; text-align:center">Starvation-free</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 8px; color:var(--text2)">Someone progresses</td>
+          <td style="padding:4px 8px; text-align:center">Lock-free</td>
+          <td style="padding:4px 8px; text-align:center">Deadlock-free</td>
+        </tr>
+      </table>
+    </div>
+  </article>
+
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-optsync" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-optsync">
+      <div class="tips-inner">
+        <ul>
+          <li>Optimistic sync trades <strong>double traversal</strong> for fewer lock acquisitions — only wins when conflicts are rare and traversal is cheap.</li>
+          <li>Lazy sync's key insight: making <code>contains()</code> wait-free is a massive win when reads dominate (e.g., concurrent sets, caches).</li>
+          <li>Skip lists are preferred over concurrent balanced trees in practice because they avoid global rebalancing — which is extremely hard to do lock-free.</li>
+          <li>Optimistic sync is <em>not</em> starvation-free — under constant contention, a thread may retry forever. Add a backoff or cap retries.</li>
+          <li>"Lock-free" ≠ "faster". Lock-free structures often have higher constant factors. Their advantage is <strong>progress guarantees</strong> under adversarial scheduling, not raw speed.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 14 — LOCK-FREE STRUCTURES
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="lockfree"
+  style="--mod-color:#c026d3; --mod-color-bg:rgba(192,38,211,0.1); --mod-color-bd:rgba(192,38,211,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">⚛️</div>
+    <div class="module-meta">
+      <div class="module-num">Module 14</div>
+      <h2 class="module-title">Lock-Free Structures</h2>
+      <p class="module-desc">Stack, List, Queue — Built with CAS and Atomic References</p>
+    </div>
+  </div>
+
+  <article class="concept-card" id="lf-atomicref" data-concept="lf-atomicref" data-module="lockfree">
+    <div class="card-hd">
+      <div class="card-emoji">🧲</div>
+      <h3 class="card-title">Atomic References &amp; CAS</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>CAS is like a <strong>conditional sticky note swap</strong>: "Replace this note with a new one, but only if it still says what I last read." If someone else changed it in the meantime, your swap fails and you try again.</p>
+    </div>
+    <div class="card-body">
+      <p><strong>Compare-and-Swap (CAS)</strong>: atomically reads a location, compares to expected value, writes new value only if they match. Returns success/failure.</p>
+      <ul>
+        <li><strong><code>AtomicReference&lt;T&gt;</code>:</strong> wraps an object reference for safe CAS operations on pointers</li>
+        <li><strong><code>AtomicMarkableReference&lt;T&gt;</code>:</strong> combines a reference + boolean flag in one atomic unit — enables logical deletion without a separate lock</li>
+        <li>On failure: read the new value and retry (compare-and-swap loop)</li>
+        <li>Lock-free algorithms are built entirely on these primitives</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="lf-stack" data-concept="lf-stack" data-module="lockfree">
+    <div class="card-hd">
+      <div class="card-emoji">📚</div>
+      <h3 class="card-title">Lock-Free Stack</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>To push: create a new sticky note pointing to the current top, then try to <strong>atomically swap the top pointer</strong>. If someone else pushed first, your swap fails — reread the top and try again.</p>
+    </div>
+    <div class="card-body">
+      <p>Uses an <code>AtomicReference&lt;Node&gt;</code> for the <strong>top</strong> pointer:</p>
+      <ul>
+        <li><strong>push:</strong> create node, set <code>node.next = top.get()</code>, then <code>top.compareAndSet(node.next, node)</code> — retry on failure</li>
+        <li><strong>pop:</strong> read <code>head = top.get()</code>, then <code>top.compareAndSet(head, head.next)</code> — retry on failure</li>
+        <li>Deadlock-free by construction — no locks exist to deadlock on</li>
+        <li>Under contention, many threads retry and waste cycles → use exponential backoff</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="lf-list" data-concept="lf-list" data-module="lockfree">
+    <div class="card-hd">
+      <div class="card-emoji">🔗</div>
+      <h3 class="card-title">Lock-Free List (Lazy Deletion)</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>To delete a node: <strong>first mark it</strong> (put a red dot on it) without touching any pointers, then <strong>swing the predecessor's pointer</strong> past it. Any thread that sees the red dot knows the node is gone and helps clean it up.</p>
+    </div>
+    <div class="card-body">
+      <p><code>AtomicMarkableReference</code> combines next-pointer + deleted-flag atomically:</p>
+      <ul>
+        <li><strong>Logical delete:</strong> CAS the node's own <code>next</code> reference to set the mark bit</li>
+        <li><strong>Physical delete:</strong> CAS the predecessor's next to skip the marked node</li>
+        <li><strong>Helping:</strong> threads encountering a marked node attempt physical deletion before proceeding — ensures lock-free progress</li>
+        <li><strong>Add:</strong> traverse, CAS predecessor's next to new node — retry if predecessor is marked</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="lf-queue" data-concept="lf-queue" data-module="lockfree">
+    <div class="card-hd">
+      <div class="card-emoji">🚌</div>
+      <h3 class="card-title">Lock-Free Queue</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>A bus stop queue: to join, you <strong>atomically link yourself to the last person</strong>. To leave, you <strong>atomically advance the front pointer</strong>. A dummy person always stands at the front so the queue is never truly empty.</p>
+    </div>
+    <div class="card-body">
+      <p>Michael &amp; Scott queue — uses a <strong>sentinel node</strong> (dummy head) and two atomic pointers:</p>
+      <ul>
+        <li><strong>Enqueue:</strong> CAS the tail's next to the new node, then advance the tail pointer</li>
+        <li><strong>Dequeue:</strong> read head's next (actual first item), CAS head to that node, return its value</li>
+        <li>Empty when <code>head.next == null</code></li>
+        <li>The sentinel prevents the head/tail confusion when the queue has exactly one item</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="lf-backoff" data-concept="lf-backoff" data-module="lockfree">
+    <div class="card-hd">
+      <div class="card-emoji">⏳</div>
+      <h3 class="card-title">Exponential Backoff</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>After a failed CAS, don't immediately try again — you'll just collide with the same threads. <strong>Wait a random short time</strong>, then try again. Double the wait after each failure. Eventually, everyone spreads out and stops colliding.</p>
+    </div>
+    <div class="card-body">
+      <p>Without backoff, contended lock-free structures can underperform locks due to cache-line thrashing:</p>
+      <ul>
+        <li>On CAS failure: sleep for a random interval in range <code>[0, cap]</code></li>
+        <li>Double <code>cap</code> after each failure up to a maximum</li>
+        <li>Dramatically improves throughput under contention by spacing out retries</li>
+        <li>Does not affect correctness — only performance</li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-lockfree" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-lockfree">
+      <div class="tips-inner">
+        <ul>
+          <li>Lock-free ≠ contention-free. Under heavy contention, failed CAS attempts generate cache traffic. <strong>Exponential backoff</strong> is almost always needed for production performance.</li>
+          <li><code>AtomicMarkableReference</code> is the key to lock-free list deletion — it atomically packages "where to go next" and "am I deleted" so neither can be changed independently.</li>
+          <li>The <strong>helping mechanism</strong> is what makes lock-free structures truly lock-free: if a thread is preempted mid-operation, other threads detect the partial state and complete the operation on its behalf.</li>
+          <li>Beware the ABA problem (next module) — it can silently corrupt lock-free structures when memory is reused.</li>
+          <li>Java's garbage collector implicitly solves ABA for object references — pointer recycling never returns the same object identity.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 15 — LOCK-FREE QUEUE PROTOCOL
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="lfqueue"
+  style="--mod-color:#d97706; --mod-color-bg:rgba(217,119,6,0.1); --mod-color-bd:rgba(217,119,6,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🔗</div>
+    <div class="module-meta">
+      <div class="module-num">Module 15</div>
+      <h2 class="module-title">Lock-Free Queue Protocol</h2>
+      <p class="module-desc">Michael &amp; Scott Algorithm — Deep Dive</p>
+    </div>
+  </div>
+
+  <article class="concept-card" id="lfq-sentinel" data-concept="lfq-sentinel" data-module="lfqueue">
+    <div class="card-hd">
+      <div class="card-emoji">👻</div>
+      <h3 class="card-title">Sentinel Node Strategy</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>The queue always has a <strong>permanent placeholder</strong> at the front that holds no real data. The queue is empty when this placeholder's "next" pointer is null. It eliminates all the special-case headaches of a truly empty queue.</p>
+    </div>
+    <div class="card-body">
+      <p>A dummy node always lives at the head, never removed:</p>
+      <ul>
+        <li><strong>Empty condition:</strong> <code>sentinel.next == null</code> — clean and unambiguous</li>
+        <li>Head always points to the sentinel; the sentinel's next is the actual first item</li>
+        <li>When dequeuing: the sentinel's next node becomes the new sentinel — it takes the role, not the position</li>
+        <li>Eliminates corner cases when head and tail point to the same node</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="lfq-enqueue" data-concept="lfq-enqueue" data-module="lfqueue">
+    <div class="card-hd">
+      <div class="card-emoji">📥</div>
+      <h3 class="card-title">M&amp;S Enqueue Protocol</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Joining a queue: you <strong>tap the last person's shoulder</strong> (link yourself as their next). Then you try to tell the "tail" sign to point to you. If someone else joined first, help them update the sign, then try again.</p>
+    </div>
+    <div class="card-body">
+      <p>Three steps, each guarded by CAS:</p>
+      <ul>
+        <li><strong>Step 1:</strong> read <code>tail</code> and <code>tail.next</code></li>
+        <li><strong>Step 2:</strong> if <code>tail.next != null</code> — tail is stale (someone half-enqueued). Advance it: <code>CAS(tail, tail.next)</code> and retry</li>
+        <li><strong>Step 3:</strong> <code>CAS(tail.next, null, newNode)</code> — link new node. Then <code>CAS(tail, tail, newNode)</code> — advance tail</li>
+      </ul>
+      <p>The "advance stale tail" step is the <strong>helping mechanism</strong> — even if the original thread died, progress continues.</p>
+    </div>
+  </article>
+
+  <article class="concept-card" id="lfq-dequeue" data-concept="lfq-dequeue" data-module="lfqueue">
+    <div class="card-hd">
+      <div class="card-emoji">📤</div>
+      <h3 class="card-title">M&amp;S Dequeue Protocol</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Leaving a queue: check if you're the only one there (empty). If not, try to <strong>atomically advance the "head" sign</strong> to the next person. If the sign moved while you were looking, try again.</p>
+    </div>
+    <div class="card-body">
+      <p>Four steps:</p>
+      <ul>
+        <li><strong>Step 1:</strong> read <code>head</code>, <code>tail</code>, and <code>head.next</code></li>
+        <li><strong>Step 2:</strong> if <code>head == tail</code> and <code>head.next == null</code> → truly empty, return empty</li>
+        <li><strong>Step 3:</strong> if <code>head == tail</code> and <code>head.next != null</code> → tail is stale, advance it first</li>
+        <li><strong>Step 4:</strong> read value from <code>head.next</code>, then <code>CAS(head, head, head.next)</code> — advance head</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="lfq-helping" data-concept="lfq-helping" data-module="lfqueue">
+    <div class="card-hd">
+      <div class="card-emoji">🤝</div>
+      <h3 class="card-title">Helping &amp; Transient Inconsistency</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>The queue can be in a <strong>half-finished state</strong> — like a relay race where the baton is mid-air. Any runner who sees this picks up the baton and completes the handoff before doing their own run. Nobody waits.</p>
+    </div>
+    <div class="card-body">
+      <p>The M&amp;S algorithm is lock-free because of the helping pattern:</p>
+      <ul>
+        <li><strong>Transient inconsistency:</strong> between linking a new node and advancing the tail pointer, the queue is "in progress" — not illegal, just incomplete</li>
+        <li><strong>Helping:</strong> any thread detecting a stale tail advances it before proceeding. No thread needs to wait for the original thread to finish.</li>
+        <li>Contrast with locks: a thread that dies mid-operation with a lock held blocks everyone forever. Here, others complete the job.</li>
+        <li>This is why the algorithm is truly <strong>lock-free</strong> — progress doesn't depend on any individual thread</li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-lfqueue" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-lfqueue">
+      <div class="tips-inner">
+        <ul>
+          <li>The <strong>sentinel node</strong> is the single most important simplification in lock-free queues. Never try to design without one.</li>
+          <li>Always re-read <code>tail</code> after finding <code>tail.next != null</code> — advancing a stale tail is a courtesy to others, but your own enqueue still needs a fresh snapshot.</li>
+          <li>The M&amp;S queue has a subtle quirk: <code>tail</code> can <em>lag behind</em> the real last node by one step. This is intentional and safe — the helping mechanism covers it.</li>
+          <li>In non-GC languages (C/C++), the M&amp;S algorithm requires hazard pointers or pointer tagging to prevent ABA corruption on node reuse.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 16 — ABA & LINEARIZABILITY
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="aba"
+  style="--mod-color:#34d399; --mod-color-bg:rgba(52,211,153,0.1); --mod-color-bd:rgba(52,211,153,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🔄</div>
+    <div class="module-meta">
+      <div class="module-num">Module 16</div>
+      <h2 class="module-title">ABA &amp; Linearizability</h2>
+      <p class="module-desc">Memory Hazards in Lock-Free Code &amp; Formal Correctness</p>
+    </div>
+  </div>
+
+  <article class="concept-card" id="aba-problem" data-concept="aba-problem" data-module="aba">
+    <div class="card-hd">
+      <div class="card-emoji">👁️</div>
+      <h3 class="card-title">The ABA Problem</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>You see a <strong>$5 bill on a table</strong>, get distracted, and come back — it's still a $5 bill. But unknown to you, it was picked up and a different $5 bill was placed there. Your CAS succeeds thinking nothing changed, but <strong>it's a different bill</strong>.</p>
+    </div>
+    <div class="card-body">
+      <p>CAS only checks the <strong>value</strong>, not the <strong>identity</strong> or history of a location:</p>
+      <ul>
+        <li>Thread X reads <code>head = A</code>, gets preempted</li>
+        <li>Thread Y pops A, pushes B, then pushes a recycled node at address A</li>
+        <li>Thread X resumes: <code>CAS(A, B)</code> succeeds — but A now refers to different data</li>
+        <li>Result: <strong>silent data corruption</strong> — B is lost, the stack is broken</li>
+        <li>Only matters when memory is recycled. Java's GC prevents it for object references.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="aba-dcas" data-concept="aba-dcas" data-module="aba">
+    <div class="card-hd">
+      <div class="card-emoji">🏷️</div>
+      <h3 class="card-title">DCAS &amp; Pointer Tagging</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Add a <strong>serial number</strong> to the bill. Even if the same $5 denomination returns to the table, its serial number is different. Now CAS checks both the value <em>and</em> the serial number — a recycled node fails the check.</p>
+    </div>
+    <div class="card-body">
+      <p>Two solutions that add a version/tag alongside the pointer:</p>
+      <ul>
+        <li><strong>DCAS (Double CAS):</strong> atomically updates a pointer + a version counter. Version increments on every write. Java: <code>AtomicStampedReference</code> (integer stamp) or <code>AtomicMarkableReference</code> (boolean)</li>
+        <li><strong>Pointer Tagging:</strong> embeds version bits in the unused lower bits of aligned pointers (e.g., bottom 3 bits are always 0 for 8-byte-aligned data). CAS checks both address and tag bits simultaneously.</li>
+      </ul>
+      <p>Both make it astronomically unlikely for a recycled address to match the old stamp.</p>
+    </div>
+  </article>
+
+  <article class="concept-card" id="aba-hazard" data-concept="aba-hazard" data-module="aba">
+    <div class="card-hd">
+      <div class="card-emoji">⚠️</div>
+      <h3 class="card-title">Hazard Pointers</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Before touching a node, you <strong>write its address on a public whiteboard</strong>. Before the GC recycles any node, it checks every whiteboard — if a node is listed by anyone, it cannot be freed yet.</p>
+    </div>
+    <div class="card-body">
+      <p>A manual reference-counting scheme for C/C++ lock-free code:</p>
+      <ul>
+        <li>Each thread has a small array of <strong>hazard pointers</strong> — public declarations of "I'm using this node"</li>
+        <li>Set <code>hazard[me] = ptr</code> before dereferencing. Then <em>re-verify</em> the pointer is still valid after setting — it may have changed in the gap.</li>
+        <li>Before freeing a node, scan all hazard arrays — if any thread declared it hazardous, defer the free</li>
+        <li>Clear your hazard pointer when done</li>
+        <li>Complex, but essential in non-GC environments. In Java, GC overhead usually exceeds the benefit.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="aba-linear" data-concept="aba-linear" data-module="aba">
+    <div class="card-hd">
+      <div class="card-emoji">📍</div>
+      <h3 class="card-title">Linearizability</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>A concurrent object is linearizable if it <strong>looks as if every operation happened atomically at one instant</strong>, even though operations actually overlap in time. Like a court that reconstructs events as if each happened at a single precise moment.</p>
+    </div>
+    <div class="card-body">
+      <p>The standard correctness condition for concurrent objects:</p>
+      <ul>
+        <li>Each operation must appear to take effect at a single <strong>linearization point</strong> between its invocation and its response</li>
+        <li>The resulting order of operations must be a valid sequential history of the object</li>
+        <li><strong>Real-time preservation:</strong> if operation A completes before B starts, A must precede B in the sequential history</li>
+        <li>Linearizability is <strong>composable</strong> — if each component is linearizable, the system is too</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="aba-examples" data-concept="aba-examples" data-module="aba">
+    <div class="card-hd">
+      <div class="card-emoji">🔎</div>
+      <h3 class="card-title">Linearizability Examples</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>To check if a history is linearizable: try to <strong>find one instant per operation</strong> where they could have "actually happened" — all in order, all making sense. If no such assignment exists, the history is broken.</p>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Linearizable queue:</strong> <code>enq(x), enq(y), deq()→x, deq()→y</code> — respects FIFO; x was enqueued before y and dequeued first ✓</li>
+        <li><strong>Non-linearizable:</strong> <code>enq(y), deq()→y</code> where <code>deq</code> response comes before <code>enq(y)</code> invocation — dequeued something not yet enqueued ✗</li>
+        <li>Linearization points are sometimes fixed (CAS at a specific line) and sometimes execution-dependent (dequeue from an empty vs non-empty queue)</li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-aba" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-aba">
+      <div class="tips-inner">
+        <ul>
+          <li>In Java, ABA on object references is impossible — the GC never reuses an object's identity. You only need stamps/tagging for raw pointer types (C/C++).</li>
+          <li><code>AtomicStampedReference</code> fixes ABA but is slow — it boxes both reference and stamp into a heap object. Use it only when ABA is a real threat.</li>
+          <li>When proving linearizability, first identify each operation's <strong>linearization point</strong>. For CAS-based algorithms, it's usually the successful CAS instruction.</li>
+          <li>Linearizability is the <em>strongest</em> standard correctness condition for concurrent objects. If you can prove it, you can compose your component safely with others.</li>
+          <li>GC is the simplest ABA solution — another argument for writing concurrent data structures in garbage-collected languages whenever performance allows.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 17 — CONSISTENCY MODELS
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="consistency"
+  style="--mod-color:#7c3aed; --mod-color-bg:rgba(124,58,237,0.1); --mod-color-bd:rgba(124,58,237,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">⚖️</div>
+    <div class="module-meta">
+      <div class="module-num">Module 17</div>
+      <h2 class="module-title">Consistency Models</h2>
+      <p class="module-desc">Linearizability Formalism, Sequential Consistency &amp; Quiescent Consistency</p>
+    </div>
+  </div>
+
+  <article class="concept-card" id="con-formalism" data-concept="con-formalism" data-module="consistency">
+    <div class="card-hd">
+      <div class="card-emoji">📜</div>
+      <h3 class="card-title">Linearizability — Formal Definition</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Imagine a spy who watches all your concurrent operations and must write a <strong>plausible one-by-one report</strong> of what happened. If she can write a report that is consistent with both the rules of the object and with who-finished-before-who, the system is linearizable.</p>
+    </div>
+    <div class="card-body">
+      <p>Formally: a history H is linearizable iff it can be extended to G such that:</p>
+      <ul>
+        <li><code>complete(G)</code> is equivalent to some legal <strong>sequential history</strong> S</li>
+        <li><strong>Real-time preservation:</strong> if operation m₀ completes before m₁ starts in H, then m₀ precedes m₁ in S</li>
+        <li>A <strong>history</strong> is a sequence of invocation and response events from all threads</li>
+        <li>A <strong>linearization point</strong> is the single instant within each operation where it takes effect</li>
+        <li>Linearization points are sometimes fixed (always at the CAS), sometimes execution-dependent</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="con-seqconsist" data-concept="con-seqconsist" data-module="consistency">
+    <div class="card-hd">
+      <div class="card-emoji">📋</div>
+      <h3 class="card-title">Sequential Consistency</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Operations must appear in some overall order that respects each thread's own program order — but operations from different threads can be freely interleaved in time. <strong>No wall-clock requirement</strong>.</p>
+    </div>
+    <div class="card-body">
+      <p>A <strong>weaker</strong> model than linearizability — drops the real-time constraint:</p>
+      <ul>
+        <li>Operations can be reordered across threads as long as each thread's <em>own</em> order is preserved</li>
+        <li>An operation that finished before another started can appear after it in the sequential history</li>
+        <li><strong>Critical limitation:</strong> SC is <em>not composable</em> — individually SC components don't guarantee a system-wide SC execution</li>
+        <li>Modern CPUs guarantee at most SC for their memory model — some guarantee even less</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="con-quiescent" data-concept="con-quiescent" data-module="consistency">
+    <div class="card-hd">
+      <div class="card-emoji">😴</div>
+      <h3 class="card-title">Quiescent Consistency</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Operations must appear in some order — but <strong>only operations that happen before a complete quiet period</strong> must precede operations after it. Overlapping operations can appear in any order.</p>
+    </div>
+    <div class="card-body">
+      <p>The weakest of the three models — only orders across <strong>quiescent states</strong> (moments with no pending operations):</p>
+      <ul>
+        <li>Operations separated by a quiescent state must appear in real-time order</li>
+        <li>Concurrent (overlapping) operations can appear in any order</li>
+        <li>Composable (like linearizability) — but much weaker in its ordering guarantees</li>
+        <li>Practical for high-throughput counters and queues where strict ordering isn't needed</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="con-compare" data-concept="con-compare" data-module="consistency">
+    <div class="card-hd">
+      <div class="card-emoji">🏆</div>
+      <h3 class="card-title">Model Comparison</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Three referees watching the same game: <strong>Linearizability</strong> writes down every play with exact timestamps. <strong>Sequential Consistency</strong> writes them in a plausible story order, ignoring exact times. <strong>Quiescent Consistency</strong> only cares about the order between halftime breaks.</p>
+    </div>
+    <div class="card-body">
+      <table style="width:100%; font-size:0.85rem; border-collapse:collapse;">
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="text-align:left; padding:5px 8px; color:var(--text2)">Property</th>
+          <th style="padding:5px 8px; color:var(--text2)">Linearizability</th>
+          <th style="padding:5px 8px; color:var(--text2)">Seq. Consistency</th>
+          <th style="padding:5px 8px; color:var(--text2)">Quiescent</th>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+          <td style="padding:5px 8px; color:var(--text2)">Composable</td>
+          <td style="padding:5px 8px; text-align:center; color:#34d399">✓</td>
+          <td style="padding:5px 8px; text-align:center; color:#e05555">✗</td>
+          <td style="padding:5px 8px; text-align:center; color:#34d399">✓</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+          <td style="padding:5px 8px; color:var(--text2)">Real-time order</td>
+          <td style="padding:5px 8px; text-align:center">All non-overlap</td>
+          <td style="padding:5px 8px; text-align:center">None</td>
+          <td style="padding:5px 8px; text-align:center">At quiescence</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px; color:var(--text2)">Cost</td>
+          <td style="padding:5px 8px; text-align:center">Higher</td>
+          <td style="padding:5px 8px; text-align:center">Moderate</td>
+          <td style="padding:5px 8px; text-align:center">Lower</td>
+        </tr>
+      </table>
+      <p style="margin-top:10px">Modern CPUs guarantee memory models weaker than SC — explicit <code>volatile</code>, fences, or atomics are needed to strengthen guarantees.</p>
+    </div>
+  </article>
+
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-consistency" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-consistency">
+      <div class="tips-inner">
+        <ul>
+          <li>Linearizability is the <strong>only composable strong model</strong>. If you need to combine multiple concurrent objects safely, each one must be linearizable.</li>
+          <li>Sequential Consistency's non-composability is a practical showstopper — two SC objects together can produce a non-SC execution. This is why it's rarely used as a formal spec.</li>
+          <li>When verifying linearizability, draw a timeline. Mark each operation as a bar from invocation to response. Try to place one point per bar where the "effect" happens, consistent with the object's sequential semantics.</li>
+          <li>Quiescent Consistency is the right model for benchmarks and performance counters — you only care about values at sampling points (natural quiescent states), not mid-flight.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 18 — CONSENSUS & STM
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="consensus"
+  style="--mod-color:#db2777; --mod-color-bg:rgba(219,39,119,0.1); --mod-color-bd:rgba(219,39,119,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🤝</div>
+    <div class="module-meta">
+      <div class="module-num">Module 18</div>
+      <h2 class="module-title">Consensus &amp; Transactional Memory</h2>
+      <p class="module-desc">Primitive Power Hierarchy &amp; Programming without Locks</p>
+    </div>
+  </div>
+
+  <article class="concept-card" id="cns-problem" data-concept="cns-problem" data-module="consensus">
+    <div class="card-hd">
+      <div class="card-emoji">🗳️</div>
+      <h3 class="card-title">The Consensus Problem</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>N friends each suggest a number. They must all <strong>agree on exactly one of the suggested numbers</strong> — no matter how slow or unpredictable the network is. The challenge: how powerful does your communication primitive need to be?</p>
+    </div>
+    <div class="card-body">
+      <p>N threads each propose a value; they must agree on exactly one proposed value:</p>
+      <ul>
+        <li><strong>Consistency:</strong> all threads decide the same value</li>
+        <li><strong>Validity:</strong> the decided value was proposed by some thread</li>
+        <li><strong>Wait-freedom:</strong> every thread decides in finite steps regardless of others</li>
+        <li>Consensus is the fundamental building block for any distributed coordination protocol</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="cns-hierarchy" data-concept="cns-hierarchy" data-module="consensus">
+    <div class="card-hd">
+      <div class="card-emoji">🏔️</div>
+      <h3 class="card-title">Consensus Number Hierarchy</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Each primitive has a <strong>power level</strong> — how many threads it can coordinate to consensus wait-free. Atomic registers: level 1 (barely useful). CAS: level ∞ (unlimited power). You can't build a higher level from a lower one.</p>
+    </div>
+    <div class="card-body">
+      <p>The <strong>consensus number</strong> of a primitive is the max threads it can solve consensus for wait-free:</p>
+      <ul>
+        <li><strong>CN = 1:</strong> Atomic registers — only one thread can decide</li>
+        <li><strong>CN = 2:</strong> Test-and-Set, Fetch&amp;Add, FIFO Queue — two threads only</li>
+        <li><strong>CN = ∞:</strong> Compare-and-Swap (CAS), LL/SC — any number of threads</li>
+      </ul>
+      <p><strong>Impossibility:</strong> a primitive with CN=k cannot build a wait-free implementation of an object with CN &gt; k. You cannot build a wait-free queue from atomic registers alone.</p>
+    </div>
+  </article>
+
+  <article class="concept-card" id="cns-stm" data-concept="cns-stm" data-module="consensus">
+    <div class="card-hd">
+      <div class="card-emoji">🧾</div>
+      <h3 class="card-title">Transactional Memory (TM)</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Like a <strong>database transaction</strong>: wrap your operations in <code>atomic &#123; ... &#125;</code>. If no conflict, changes commit all-at-once. If there's a conflict, the system automatically rolls back and retries — no deadlocks, no manual locks.</p>
+    </div>
+    <div class="card-body">
+      <p>Shift synchronization burden from programmer to the runtime:</p>
+      <ul>
+        <li><strong>Atomicity:</strong> changes are visible all-at-once or not at all</li>
+        <li><strong>Isolation:</strong> each transaction sees a consistent snapshot</li>
+        <li><strong>Serializability:</strong> parallel execution equivalent to some serial order</li>
+        <li><strong>vs Locks:</strong> no deadlocks, no priority inversion, composable</li>
+        <li><strong>vs Lock-Free:</strong> no ABA problem, no manual CAS loops — far simpler to write</li>
+        <li><strong>Implementations:</strong> Hardware TM (HTM, fast but limited), Software TM (STM, flexible, higher overhead)</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="cns-design" data-concept="cns-design" data-module="consensus">
+    <div class="card-hd">
+      <div class="card-emoji">⚙️</div>
+      <h3 class="card-title">TM Design Choices</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>STM needs to answer: <strong>what counts as a conflict?</strong> (track reads and writes), <strong>when to detect it?</strong> (eagerly or at commit), and <strong>what to do?</strong> (abort and retry). Different answers give different performance tradeoffs.</p>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Conflict detection:</strong> read-set and write-set tracking; two transactions conflict if one reads what another writes</li>
+        <li><strong>Nesting:</strong> flattened (inner merges with outer) vs closed (inner can abort independently)</li>
+        <li><strong>Scope:</strong> all variables vs reference-based (Scala-STM wraps shared data in <code>Ref</code> objects)</li>
+        <li><strong>I/O problem:</strong> operations with irreversible side effects (printing, network) cannot be rolled back — STM cannot safely wrap them</li>
+        <li>HTM (Intel TSX) is mostly disabled due to security vulnerabilities (Spectre-class side channels)</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="cns-clockstm" data-concept="cns-clockstm" data-module="consensus">
+    <div class="card-hd">
+      <div class="card-emoji">🕰️</div>
+      <h3 class="card-title">Clock-Based STM</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Every transaction gets a <strong>birthday timestamp</strong>. Every memory location remembers <strong>when it was last changed</strong>. If you read something changed after your birthday, your snapshot is stale — abort and retry with a new birthday.</p>
+    </div>
+    <div class="card-body">
+      <p>Uses a global version clock to detect stale reads:</p>
+      <ul>
+        <li>Transaction gets a <strong>birthdate</strong> = current clock value at start</li>
+        <li><strong>Read:</strong> check object's timestamp ≤ birthdate — if newer, abort (someone changed it since our snapshot)</li>
+        <li><strong>Commit:</strong> lock all read/write objects → validate all reads → increment clock → write new values with new timestamp → unlock</li>
+        <li>Lock objects in consistent order to prevent deadlock during commit</li>
+        <li><code>retry()</code> in Scala-STM / Haskell STM: abort and sleep until any watched variable changes — elegant solution to conditional waiting</li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-consensus" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-consensus">
+      <div class="tips-inner">
+        <ul>
+          <li>The consensus number hierarchy proves theoretical limits: no matter how clever you are, you <strong>cannot build a wait-free queue from only read/write registers</strong>. You need at least CAS.</li>
+          <li>STM's biggest practical limitation is <strong>I/O inside transactions</strong>. Never print, log to disk, or send network packets inside an atomic block — there's no way to undo them on abort.</li>
+          <li>Scala-STM's <code>retry()</code> is the equivalent of monitor <code>wait()</code> — it aborts the transaction and re-runs it when any of its read variables change.</li>
+          <li>HTM (Intel TSX) was disabled on most CPUs after Spectre vulnerabilities. Don't rely on it being available in production environments.</li>
+          <li>STM conflict rates matter enormously for performance. Low-conflict workloads run near-optimally; high-conflict workloads (many writes to shared data) can be slower than simple locking.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════
+     MODULE 19 — DISTRIBUTED & MPI
+══════════════════════════════════════════╗ -->
+<section class="module-section" data-module="distrib"
+  style="--mod-color:#0891b2; --mod-color-bg:rgba(8,145,178,0.1); --mod-color-bd:rgba(8,145,178,0.22)">
+
+  <div class="module-hd">
+    <div class="module-icon">🌐</div>
+    <div class="module-meta">
+      <div class="module-num">Module 19</div>
+      <h2 class="module-title">Distributed Memory &amp; MPI</h2>
+      <p class="module-desc">Message Passing, Go Channels &amp; High-Performance Computing</p>
+    </div>
+  </div>
+
+  <article class="concept-card" id="dist-arch" data-concept="dist-arch" data-module="distrib">
+    <div class="card-hd">
+      <div class="card-emoji">🖧</div>
+      <h3 class="card-title">Distributed Memory Architecture</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Instead of all workers sharing one giant whiteboard (shared memory), each worker has their <strong>own private whiteboard</strong>. To share information, they must explicitly <strong>pass notes</strong> through a network — no one can read another's board directly.</p>
+    </div>
+    <div class="card-body">
+      <p>Two fundamentally different parallel architectures:</p>
+      <ul>
+        <li><strong>Shared memory:</strong> multiple CPUs access a common memory pool — easy to program, limited scalability (hundreds of cores)</li>
+        <li><strong>Distributed memory:</strong> each node has private CPU + memory, connected via network — scales to millions of cores (HPC clusters), but requires explicit communication</li>
+        <li>Distributed memory eliminates all shared-state hazards (races, locks) — but communication latency and bandwidth become the new bottleneck</li>
+        <li>Also motivates <strong>functional programming</strong> (immutable data) and <strong>message passing</strong> (private state + explicit exchange)</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="dist-msgpass" data-concept="dist-msgpass" data-module="distrib">
+    <div class="card-hd">
+      <div class="card-emoji">✉️</div>
+      <h3 class="card-title">Message Passing</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Instead of shared memory, tasks <strong>own their data privately</strong> and cooperate by sending messages. Like employees at different offices who work independently but email each other when they need to share results.</p>
+    </div>
+    <div class="card-body">
+      <p>State lives inside each task; communication is explicit:</p>
+      <ul>
+        <li><strong>Synchronous send:</strong> blocks until the receiver accepts — like a hand-to-hand pass. Guarantees delivery but can deadlock if both sides wait for each other.</li>
+        <li><strong>Asynchronous send:</strong> returns immediately; message queued in a mailbox. Receiver retrieves later. More flexible, but requires bounded buffers.</li>
+        <li>No shared mutable state means no data races, no locks — a completely different programming model</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="dist-go" data-concept="dist-go" data-module="distrib">
+    <div class="card-hd">
+      <div class="card-emoji">🐹</div>
+      <h3 class="card-title">Go Concurrency Model</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>Go's motto: <strong>"Don't communicate by sharing memory; share memory by communicating."</strong> Goroutines are tiny threads. Channels are typed pipes between them — pass data through the pipe instead of sharing a variable.</p>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Goroutines:</strong> lightweight concurrent functions, multiplexed onto OS threads by the runtime — far cheaper than Java threads</li>
+        <li><strong>Channels:</strong> typed, directional communication pipes
+          <ul>
+            <li>Unbuffered: synchronous — sender blocks until receiver is ready</li>
+            <li>Buffered: asynchronous up to buffer capacity</li>
+          </ul>
+        </li>
+        <li><strong>Risk:</strong> synchronous channels can deadlock if a goroutine waits on channel A while the expected receiver waits on channel B</li>
+        <li><code>select</code> statement: wait on multiple channels simultaneously — the first ready one proceeds</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="dist-mpi" data-concept="dist-mpi" data-module="distrib">
+    <div class="card-hd">
+      <div class="card-emoji">🔌</div>
+      <h3 class="card-title">Message Passing Interface (MPI)</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>A standardized <strong>postal service for HPC clusters</strong>. Every process gets a unique rank (ID). They run the same code but use their rank to decide what role to play — like one program that branches based on "am I the manager or a worker?"</p>
+    </div>
+    <div class="card-body">
+      <p>The standard for distributed-memory parallel computing:</p>
+      <ul>
+        <li><strong>Communicators:</strong> groups of processes (e.g., <code>MPI_COMM_WORLD</code> = all processes)</li>
+        <li><strong>Rank:</strong> unique integer ID 0 to size−1 per process</li>
+        <li><strong>SPMD model:</strong> all processes run identical code; <code>if (rank == 0) &#123; ... &#125;</code> distinguishes roles</li>
+        <li><strong>Point-to-point:</strong> <code>MPI_Send(buf, count, type, dest, tag, comm)</code> / <code>MPI_Recv(..., src, ...)</code></li>
+        <li><strong>Collective:</strong> <code>MPI_Bcast</code>, <code>MPI_Reduce</code>, <code>MPI_Scatter</code>, <code>MPI_Gather</code> — operate on all processes in a communicator</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="concept-card" id="dist-perf" data-concept="dist-perf" data-module="distrib">
+    <div class="card-hd">
+      <div class="card-emoji">⚡</div>
+      <h3 class="card-title">Data Locality &amp; HPC Performance</h3>
+    </div>
+    <div class="eli5">
+      <span class="eli5-tag">ELI5</span>
+      <p>In modern HPC, <strong>moving data costs more than computing</strong>. A multiplication is nearly free — moving a number from far RAM to the CPU core costs hundreds of multiplications. The real game is keeping data close to where it's being processed.</p>
+    </div>
+    <div class="card-body">
+      <p>Modern HPC treats computation as a <strong>data management challenge</strong>:</p>
+      <ul>
+        <li>Energy cost of fetching data from DRAM ≫ cost of floating-point arithmetic</li>
+        <li><strong>Spatial locality:</strong> access memory addresses near each other — cache lines are 64 bytes wide</li>
+        <li><strong>Temporal locality:</strong> reuse data while it's still in cache — avoid re-fetching</li>
+        <li><strong>Control locality:</strong> predictable branches and tight loops avoid pipeline stalls</li>
+        <li>Algorithms are increasingly designed around <strong>arithmetic intensity</strong> (FLOPs per byte of memory traffic) rather than raw operation count</li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="tips-section">
+    <button class="tips-btn" data-target="tips-distrib" aria-expanded="false">
+      <span>💡</span> <span style="flex:1">Tips &amp; Tricks</span> <span class="chevron">▾</span>
+    </button>
+    <div class="collapsible" id="tips-distrib">
+      <div class="tips-inner">
+        <ul>
+          <li>In MPI, always ensure sends and receives are <strong>paired symmetrically</strong>. A <code>MPI_Send</code> with no matching <code>MPI_Recv</code> will block forever (or deadlock in collective operations).</li>
+          <li>Prefer collective operations (<code>MPI_Bcast</code>, <code>MPI_Reduce</code>) over manual point-to-point loops — they're optimized for your hardware topology and much harder to deadlock.</li>
+          <li>In Go: when a channel send or receive seems stuck, check whether the corresponding goroutine has already exited. A channel with nobody on the other end blocks forever.</li>
+          <li>Cache-friendly data structures (arrays over linked lists) matter enormously in HPC — pointer chasing across DRAM is the single biggest performance killer.</li>
+          <li>The message-passing model is naturally <strong>deadlock-resistant</strong> — but synchronous channels/sends in a cycle (A waits for B, B waits for A) are the classic deadlock pattern. Introduce a buffer or reorder.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
 </div><!-- .app-layout -->
 
 <script>
 // ── Colors (for active nav highlight) ──────────────────
 const modColors = {
-  intro:    '#6c63ff', threads: '#00bcd4',
-  hazards:  '#e05555', hardware: '#f5a623',
-  perf:     '#2ecc71', divide:   '#a855f7',
-  algo:     '#3b82f6', jmm:      '#ec4899',
-  locks:    '#84cc16', sync:     '#f97316'
+  intro:       '#6c63ff', threads:     '#00bcd4',
+  hazards:     '#e05555', hardware:    '#f5a623',
+  perf:        '#2ecc71', divide:      '#a855f7',
+  algo:        '#3b82f6', jmm:         '#ec4899',
+  locks:       '#84cc16', sync:        '#f97316',
+  monitors:    '#14b8a6', rwlocks:     '#f43f5e',
+  optsync:     '#0ea5e9', lockfree:    '#c026d3',
+  lfqueue:     '#d97706', aba:         '#34d399',
+  consistency: '#7c3aed', consensus:   '#db2777',
+  distrib:     '#0891b2'
 };
 
 // ── Collapsibles ───────────────────────────────────────
